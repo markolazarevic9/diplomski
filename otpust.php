@@ -36,7 +36,10 @@
         padding: 5px;
         margin-bottom: 0;
       }
-    
+      .odeljenje {
+        margin-top: 30px;
+        margin-bottom: 30px;
+      }
   </style>
   <body>
     <?php require_once("components/header.php") ?>
@@ -47,18 +50,13 @@
         <!-- <h2 id="mainH">Prijem <hr></h2> -->
         <div class="container">
             <h3>Status pacijenta</h3>
-            <select name="status" id="status" onchange="odeljenje()">
+            <select name="status" id="status">
               <option value='0'>--- Izaberite status pacijenta ---</option>
-              <option value='1'>KUĆNO LEČENJE</option>
-              <option value='2'>HOSPITALIZOVAN</option>
+              <option value='1'>ZDRAV</option>
+              <option value='2'>PREMINUO</option>
+              <option value='2'>KUĆNO LEČENJE</option>
             </select>
-            <h3>Dijagnoza</h3>
-            <select name="dijagnoza" id="dijagnoza">
-            <option value='0'>--- Izaberite dijagnozu ---</option>
-              <option value='1'>KUĆNO LEČENJE</option>
-              <option value='2'>HOSPITALIZOVAN</option>
-            </select>
-            <div class="div"> <h3>Izaberite odeljenje</h3></div>
+            <div class="div"></div>
             <h3 id="h3">Napomena</h3>
             <textarea name="napomena" id="napomena" cols="30" rows="10"></textarea>
             <input id="btn" class="btn btn-info" type="submit" value="Potvrdi">
@@ -71,26 +69,11 @@
         let btn =  document.querySelector("#btn");
         let url = new URL(window.location.href);
         let patientId = url.searchParams.get("id");
-        let soba = document.createElement("select");
-        soba.innerHTML = "<option value='0'>--- Izaberite odeljenje ---</option> <option value='1'>Intenzivna nega</option> <option value='2'>Poluintenzivna nega</option>";
-        soba.classList.add("odeljenje")
-        document.querySelector(".div").appendChild(soba);
-       
-        function odeljenje() {
-         
-          if(document.querySelector("#status").options[document.querySelector("#status").value].text == "HOSPITALIZOVAN") {
-            document.querySelector(".odeljenje").style.display = "inline";
-           
-          } else {
-            document.querySelector(".odeljenje").style.display = "none";
-          }
-         
-        }
-      
+
         btn.addEventListener("click", () => {
           let status = document.querySelector("#status").options[document.querySelector("#status").value].text;
           let napomena = document.querySelector("#napomena").value;
-          $.get("ajax/prijemPacijenta.php",{status:status,napomena:napomena,patientId:patientId,odeljenje:odeljenje},function(odg) {
+          $.get("ajax/otpustPacijenta.php",{status:status,napomena:napomena,patientId:patientId},function(odg) {
             alert(odg);
           })
         })

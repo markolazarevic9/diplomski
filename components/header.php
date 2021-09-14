@@ -8,7 +8,7 @@
 <div class="header">
       <h1 id="eBolnica"><i class="fas fa-hospital"></i> eBolnica</h1>
       <span id="logUser">Ulogovani korisnik: <?php echo $_SESSION['ime'] ." ".$_SESSION['prezime']?> <br>
-      <button class="btn btn-outline-dark btn-sm"><a style="color:white;text-decoration:none;" href="logof.php">Odjava</a></button></span>
+      <button class="btn btn-outline-danger btn-sm"><a style="color:white;text-decoration:none;" href="logof.php">Odjava</a></button></span>
  </div>
 
 

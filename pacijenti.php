@@ -27,6 +27,12 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <title>Pacijenti</title>
   </head>
+   <style>
+      #tbody > tr > td > button {
+        padding: 3px;
+        border-radius: 7px;
+      }
+   </style>
   <body>
    <?php require_once("components/header.php")?>
 
@@ -50,6 +56,9 @@
               <th scope="col">JMBG</th>
               <th scope="col">Karton</th>
               <th scope="col">Terapija</th>
+              <th scope="col">Prijem</th>
+              <th scope="col">Otpust</th>
+              <th scope="col">Dijagnostika</th>
             </tr>
           </thead>
           <tbody id="tbody">

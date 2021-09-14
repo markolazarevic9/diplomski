@@ -24,13 +24,28 @@
             <td>{$value['PREZIMEPACIJENT']}</td>
             <td>{$value['JMBG']}</td>
             <td>
-              <button class='btn-primary'>
+              <button type='button' class='btn-primary'>
                 <a data-id={$value['IDPACIJENT']} class='text-white btnKarton' href='karton.php?id={$value['IDPACIJENT']}'>Karton</a>
               </button>
             </td>
             <td>
             <button class='btn-success'>
               <a data-id={$value['IDPACIJENT']} class='text-white btnKarton' href='terapija.php?id={$value['IDPACIJENT']}'>Terapija</a>
+            </button>
+          </td>
+          <td>
+            <button class='btn-info'>
+              <a data-id={$value['IDPACIJENT']} class='text-dark btnKarton' href='prijem.php?id={$value['IDPACIJENT']}'>Prijem</a>
+            </button>
+          </td>
+          <td>
+            <button class='btn-secondary'>
+              <a data-id={$value['IDPACIJENT']} class='text-white btnKarton' href='otpust.php?id={$value['IDPACIJENT']}'>Otpust</a>
+            </button>
+          </td>
+          <td>
+            <button class='btn-warning'>
+              <a data-id={$value['IDPACIJENT']} class='text-dark btnKarton' href='dijagnostika.php?id={$value['IDPACIJENT']}'>Dijagnostika</a>
             </button>
           </td>
           </tr>";
@@ -101,6 +116,21 @@
       $pacijent = mysqli_fetch_object($rez);
       return $pacijent;
    }
+
+  //  function fetchKarton($id)
+  //  {
+  //     require_once("classes/db.php");
+  //     $db = new Db();
+  //     if(!$db->connect())
+  //     {
+  //         echo "Greška prilikom konekcije na bazu!!!<br>".$db->error();
+  //         exit();
+  //     }
+  //     $upit = "SELECT * FROM KARTON WHERE IDPACIJENT = {$id}";
+  //     $rez = $db -> query($upit);
+  //     $karton = mysqli_fetch_object($rez);
+  //     return $karton;
+  //  }
 
     function showTreatment($list)
     {

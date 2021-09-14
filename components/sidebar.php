@@ -13,9 +13,13 @@
          ><i class="fas fa-prescription-bottle-alt"></i> Lekovi</a
        >
      </div>
-     <div class="option"><a href="prijem.php">Prijem</a></div>
-     <div class="option"><a href="/">Otpust</a></div>
-     <div class="option">
-       <a href="/"> <i class="fas fa-stethoscope"></i> Dijagnostika</a>
-     </div>
+    
+     <?php
+        if($_SESSION['status'] == 'admin')
+        {
+          echo '<div class="option">
+          <a href="logovi.php"><i class="fa fa-history"></i> Logovi</a>
+        </div>';
+        }
+     ?>
    </div> 

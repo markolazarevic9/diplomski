@@ -44,7 +44,6 @@
     <div class="central">
       <?php require_once("components/sidebar.php")?>
         <div class="main">
-          <h2 id="mainH">Terapija</h2>
           <hr />
           <div class="container">
            <?php 
@@ -54,7 +53,13 @@
            }
            if($_SESSION['status'] == "tehnicar")
            {
-             tehTerLayout();
+             $patientId = $_GET['id'];
+             $patient = fetchPatient($patientId);
+             $karton = fetchKarton($patientId);
+             if($karton->STATUSPACIJENTA == "HOSPITALIZOVAN")
+             {
+              tehTerLayout();
+             }
            }
            ?>    
         </div>
