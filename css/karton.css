@@ -1,0 +1,42 @@
+.jumbotron {
+  flex-basis: 100%;
+  padding: 20px;
+}
+
+body {
+  overflow-y: scroll;
+}
+.patient {
+  display: flex;
+  flex-basis: 100%;
+  padding: 10px;
+  background-color: rgba(211, 211, 211, 0.489);
+}
+
+.patientPhoto {
+  flex-basis: 20%;
+  max-height: 200px;
+}
+
+hr {
+  margin-bottom: 0;
+}
+.patient h2 {
+  padding: 0px;
+  text-align: left;
+  margin-bottom: 20px;
+}
+.personalData {
+  text-align: left;
+  padding: 5px;
+  flex-basis: 20%;
+}
+
+h4 {
+  margin-top: 20px;
+  font-weight: lighter;
+}
+
+#mainH {
+  padding: 10px !important;
+}
