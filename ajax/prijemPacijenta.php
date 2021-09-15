@@ -27,29 +27,50 @@
         $napomena = $_GET['napomena'];
         $pacijentId = $_GET['patientId'];
         $lekar = $_SESSION['idKorisnik'];
-    
-        $karton = fetchKarton($pacijentId);
-    
-        if($karton->STATUSPACIJENTA == "HOSPITALIZOVAN")
+        $dijagnoza = $_GET['dijagnoza'];
+        $tip = $_GET['tip'];
+        $odeljenje = $_GET['odeljenje'];
+
+        if($status == "" || $dijagnoza == "/" || $tip == "/")
         {
-            echo "Pacijent je već hospitalizovan";
+            echo '<div class="alert alert-danger" role="alert">
+            Niste uneli sve podatke
+           </div>';
         }
         else
         {
             
-            $kartonId = $karton->IDKARTON;
-            $upit = "INSERT INTO PRIJEM(IDKARTON,IDRADNIK,STATUS_PRIJEM) VALUES('$kartonId','$lekar','$napomena')";
-            $upit2 = "UPDATE KARTON SET STATUSPACIJENTA = '$status' WHERE IDKARTON = '$kartonId'";
+       $karton = fetchKarton($pacijentId);
     
-            $rez1 = $db->query($upit);
-            $rez2 = $db->query($upit2);
+       if($karton->STATUSPACIJENTA == "HOSPITALIZOVAN")
+       {
+           echo "Pacijent je već hospitalizovan";
+       }
+       else
+       {
+           
+           $kartonId = $karton->IDKARTON;
+           $upit = "INSERT INTO PRIJEM(IDKARTON,IDRADNIK,STATUS_PRIJEM) VALUES('$kartonId','$lekar','$napomena')";
+           $upit2 = "UPDATE KARTON SET STATUSPACIJENTA = '$status' WHERE IDKARTON = '$kartonId'";
+   
+           $rez1 = $db->query($upit);
+           $rez2 = $db->query($upit2);
+
+           if($karton->STATUSPACIJENTA == "HOSPITALIZOVAN")
+           {
+               $upit3 = "SELECT * FROM SOBA WHERE SLOBODNOMESTA > 0 AND IDODELJENJE = '$odeljenje' LIMIT 1";
+               $rez = $db->query($upit3);
+           }
     
-            if($rez1 && $rez2)
-            {
-                echo "Uspešno zabeležen prijem";
-            }
-    
+           if($rez1 && $rez2)
+           {
+               echo "Uspešno zabeležen prijem";
+           }
+   
+       }
         }
+
+    
     }
     else
     {

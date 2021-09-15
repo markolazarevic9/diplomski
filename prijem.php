@@ -54,9 +54,21 @@
             </select>
             <h3>Dijagnoza</h3>
             <select name="dijagnoza" id="dijagnoza">
-            <option value='0'>--- Izaberite dijagnozu ---</option>
-              <option value='1'>KUĆNO LEČENJE</option>
-              <option value='2'>HOSPITALIZOVAN</option>
+              <option value='0'>--- Izaberite dijagnozu ---</option>
+                <?php
+                  $kartonId = $karton->IDKARTON;
+                  $upit = "SELECT * FROM DIJAGNOZA";
+                  $rez = $db->query($upit);
+                  foreach($rez as $value)
+                  {
+                      echo "<option value='{$value['IDDIJAGNOZA']}'>{$value['NAZIVDIJAGNOZA']}</option>";
+                  } 
+                ?>
+            </select>
+            <select name="tip" id="tip">
+              <option value="/">--- Izaberi tip dijagnoze ---</option>
+              <option value="AKUTNO">Akutno</option>
+              <option value="AKUTNO">Hronično</option>
             </select>
             <div class="div"> <h3>Izaberite odeljenje</h3></div>
             <h3 id="h3">Napomena</h3>
@@ -72,8 +84,9 @@
         let url = new URL(window.location.href);
         let patientId = url.searchParams.get("id");
         let soba = document.createElement("select");
-        soba.innerHTML = "<option value='0'>--- Izaberite odeljenje ---</option> <option value='1'>Intenzivna nega</option> <option value='2'>Poluintenzivna nega</option>";
-        soba.classList.add("odeljenje")
+        soba.innerHTML = "<option value='/'>--- Izaberite odeljenje ---</option> <option value='4'>Intenzivna nega</option> <option value='1'>Poluintenzivna nega</option>";
+        soba.classList.add("odeljenje");
+        soba.setAttribute("name","odeljenje");
         document.querySelector(".div").appendChild(soba);
        
         function odeljenje() {

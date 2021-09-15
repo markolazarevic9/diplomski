@@ -5,8 +5,10 @@
   {
     header("location:login.php");
   }
-
- 
+  if($_SESSION['status'] != "admin")
+  {
+      header("location:dashboard.php");
+  }
 ?>
 
 
@@ -34,6 +36,9 @@
       body {
           overflow-y: scroll;
       }
+      .container {
+        text-align: center;
+      }
     </style>
   </head>
   <body>
@@ -42,7 +47,7 @@
     <div class="central">
       <?php require_once("components/sidebar.php")?>
 
-      <div class="main">
+      <div class="main container">
           <table class="table">
              <tbody>
                 <?php

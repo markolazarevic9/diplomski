@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="css/dashboard.css" />
 
-    <title>Prijem</title>
+    <title>Otpust</title>
   </head>
   <style>
           input,select,textarea {
@@ -50,13 +50,13 @@
         <!-- <h2 id="mainH">Prijem <hr></h2> -->
         <div class="container">
             <h3>Status pacijenta</h3>
-            <select name="status" id="status">
+            <select name="status" id="status" onchange="prikazDijagnoza()">
               <option value='0'>--- Izaberite status pacijenta ---</option>
               <option value='1'>ZDRAV</option>
               <option value='2'>PREMINUO</option>
               <option value='2'>KUĆNO LEČENJE</option>
             </select>
-            <div class="div"></div>
+            
             <h3 id="h3">Napomena</h3>
             <textarea name="napomena" id="napomena" cols="30" rows="10"></textarea>
             <input id="btn" class="btn btn-info" type="submit" value="Potvrdi">
@@ -77,6 +77,18 @@
             alert(odg);
           })
         })
+
+        function prikazDijagnoza() {
+          let div = document.createElement('div');
+          let selected = document.querySelector("#status");
+          if(selected.options[selected.value].text == "ZDRAV" || selected.options[selected.value].text == "KUĆNO LEČENJE") {
+            $.get("ajax/dijagnoze.php",{patientId:patientId}, function(odg) {
+              dvi.innerHTML += odg;
+            })
+
+          }
+        }
+        
     </script>
   </body>
 </html>

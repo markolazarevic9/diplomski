@@ -3,7 +3,7 @@ class Db {
     private $server="localhost";
     private $username="root";
     private $password="";
-    private $database="diplomski";
+    private $database="ebolnica";
     private $db;
 
     public function connect(){

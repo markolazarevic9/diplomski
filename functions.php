@@ -117,20 +117,20 @@
       return $pacijent;
    }
 
-  //  function fetchKarton($id)
-  //  {
-  //     require_once("classes/db.php");
-  //     $db = new Db();
-  //     if(!$db->connect())
-  //     {
-  //         echo "Greška prilikom konekcije na bazu!!!<br>".$db->error();
-  //         exit();
-  //     }
-  //     $upit = "SELECT * FROM KARTON WHERE IDPACIJENT = {$id}";
-  //     $rez = $db -> query($upit);
-  //     $karton = mysqli_fetch_object($rez);
-  //     return $karton;
-  //  }
+   function fetchKarton($id)
+   {
+      require_once("classes/db.php");
+      $db = new Db();
+      if(!$db->connect())
+      {
+          echo "Greška prilikom konekcije na bazu!!!<br>".$db->error();
+          exit();
+      }
+      $upit = "SELECT * FROM KARTON WHERE IDPACIJENT = {$id}";
+      $rez = $db -> query($upit);
+      $karton = mysqli_fetch_object($rez);
+      return $karton;
+   }
 
     function showTreatment($list)
     {
