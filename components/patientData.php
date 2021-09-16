@@ -9,6 +9,7 @@
               <div class="personalData">
                 <h4>Karton</h4>
                 <h6>VAKCINISAN: <?php echo $karton->VAKCINISAN?> </h6>
+                <h6>TEST: <?php echo $karton->TEST?> </h6>
                 <h6>ALERGIJE: <?php echo $karton->ALERGIJE?> </h6>
                 <h6>KRVNA GRUPA: <?php echo $karton->KRVNAGRUPA?> </h6>
                 <h6>STATUS: <?php echo $karton->STATUSPACIJENTA?> </h6>

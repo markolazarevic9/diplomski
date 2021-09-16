@@ -1,8 +1,11 @@
 <?php session_start()?>
 <?php
     require_once("components/db_connect.php");
+    require_once("functions.php");
     $upit = "SELECT * FROM LEK";
     $rez = $db->query($upit);
+    $idPacijent = $_GET['id'];
+    $pacijent = fetchPatient($idPacijent);
 ?>
 
 <!DOCTYPE html>
@@ -24,7 +27,7 @@
     <link rel="stylesheet" href="css/pacijenti.css" />
     <link rel="stylesheet" href="css/dashboard.css" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    <title>Pacijenti</title>
+    <title>Terapija</title>
 
     <style>
    
@@ -44,7 +47,7 @@
     <div class="central">
       <?php require_once("components/sidebar.php")?>
         <div class="main">
-          <hr />
+          <h2>Terapija za <?php echo $pacijent->IMEPACIJENT . " ". $pacijent->PREZIMEPACIJENT?></h2><hr />
           <div class="container">
            <?php 
            if($_SESSION['status'] == "lekar")

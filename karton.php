@@ -1,5 +1,9 @@
 <?php session_start()?>
 <?php
+  if(!isset($_SESSION['ime'])) 
+  {
+    header("location:login.php");
+  }
   require_once("components/db_connect.php");
   require_once("functions.php");
   require_once("components/fetchPatient.php");
@@ -24,6 +28,9 @@
       #collapseFour > div > table > tbody > tr > td > button > a {
         color: white;
         text-decoration: none;
+      }
+      h3 {
+        text-align: center;
       }
     </style>
   </head>
@@ -112,7 +119,34 @@
               </h2>
               <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                  <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+                  <h3>Prijemi</h3>
+                    <table class="table">
+                        <thead>
+                          <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Datum</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Lekar</th>
+                          </tr>
+                        </thead>
+                        <tbody id="tbody">
+                          <?php showPrijem($_GET['id']) ?>
+                        </tbody>
+                    </table>
+                    <h3>Otpusti</h3>
+                    <table class="table">
+                        <thead>
+                          <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Datum</th>
+                            <th scope="col">Napomena</th>
+                            <th scope="col">Lekar</th>
+                          </tr>
+                        </thead>
+                        <tbody id="tbody">
+                          <?php showOtpust($_GET['id']) ?>
+                        </tbody>
+                    </table>
                 </div>
               </div>
             </div>

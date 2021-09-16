@@ -1,5 +1,9 @@
 <?php
     session_start();
+    if(!isset($_SESSION['ime'])) 
+    {
+        header("location:login.php");
+    }
     require_once("functions.php");
     require_once("components/db_connect.php");
     $upit = "SELECT * FROM ANALIZA WHERE IDANALIZA = {$_GET['IDANALIZA']}";

@@ -19,11 +19,13 @@
         foreach($list as $value) 
         {   
             echo "<tr>
-            <th scope='row'> " .$value['IDPACIJENT'] + 1 ."</th>
+            <th scope='row'> " .$value['IDPACIJENT']."</th>
             <td>{$value['IMEPACIJENT']}</td>
             <td>{$value['PREZIMEPACIJENT']}</td>
-            <td>{$value['JMBG']}</td>
-            <td>
+            <td>{$value['JMBG']}</td>";
+            if($_SESSION['status'] != "admin")
+            {
+              echo "<td>
               <button type='button' class='btn-primary'>
                 <a data-id={$value['IDPACIJENT']} class='text-white btnKarton' href='karton.php?id={$value['IDPACIJENT']}'>Karton</a>
               </button>
@@ -47,8 +49,18 @@
             <button class='btn-warning'>
               <a data-id={$value['IDPACIJENT']} class='text-dark btnKarton' href='dijagnostika.php?id={$value['IDPACIJENT']}'>Dijagnostika</a>
             </button>
-          </td>
-          </tr>";
+          </td>";
+            } 
+            else
+            {
+              echo " <td>
+              <button class='btn-warning'>
+                <a data-id={$value['IDPACIJENT']} class='text-dark btnKarton' href='izmeni.php?id={$value['IDPACIJENT']}'>Izmeni</a>
+              </button>
+            </td>";
+            }
+            
+         echo "</tr>";
         }
     }
 
@@ -73,6 +85,19 @@
           <td>{$diagnosis->datum_izlecenja}</td>
           <td>{$diagnosis->TIP}</td>
         </tr>";
+      }
+    }
+
+    function showListOfDiagnosis($list)
+    {
+      foreach($list as $value)
+      {
+        echo "<tr>
+        <th scope='row'> " .$value['IDDIJAGNOZA'] + 1 ."</th>
+        <td>{$value['NAZIVDIJAGNOZA']}</td>
+        <td>{$value['SIFRADIJAGNOZA']}</td>
+        <td>{$value['OPISDIJAGNOZA']}</td>
+      </tr>";
       }
     }
 
@@ -267,4 +292,83 @@
         }
         echo "</tbody></table>";
     }
+
+    function showPrijem($id) 
+    {
+      require("components/db_connect.php");
+      $upit = "SELECT * FROM PRIJEM WHERE IDKARTON = (SELECT IDKARTON FROM KARTON WHERE IDPACIJENT = {$id})";
+      $rez = $db->query($upit);
+
+      foreach($rez as $value)
+      {
+        $lekar = fetchRadnik($value['IDRADNIK']);
+        echo 
+        "
+          <tr>
+            <th scope='row'>{$value['IDPRIJEM']}</th>
+            <td>{$value['DATUM_PRIJEM']}</td>
+            <td>{$value['STATUS_PRIJEM']}</td>
+            <td>{$lekar->IMERADNIK}" . " " ." {$lekar->PREZIMERADNIK}</td>
+          </tr>
+        ";
+      } 
+    }
+    function showOtpust($id) 
+    {
+      require("components/db_connect.php");
+      $upit = "SELECT * FROM OTPUST WHERE IDKARTON = (SELECT IDKARTON FROM KARTON WHERE IDPACIJENT = {$id})";
+      $rez = $db->query($upit);
+
+      foreach($rez as $value)
+      {
+        $lekar = fetchRadnik($value['IDRADNIK']);
+        echo 
+        "
+          <tr>
+            <th scope='row'>{$value['IDOTPUST']}</th>
+            <td>{$value['DATUM_OTPUST']}</td>
+            <td>{$value['OTPUST_NAPOMENA']}</td>
+            <td>{$lekar->IMERADNIK}" . " " ." {$lekar->PREZIMERADNIK}</td>
+          </tr>
+        ";
+      } 
+
+    }
+
+    function showEm($list)
+    {
+      require_once("classes/db.php");
+      $db = new Db();
+      if(!$db->connect())
+      {
+          echo "Greška prilikom konekcije na bazu!!!<br>".$db->error();
+          exit();
+     }
+      foreach($list as $value) 
+      {   
+
+          $upit = "SELECT * FROM ODELJENJE WHERE IDODELJENJE = (SELECT IDODELJENJE FROM RADNIK WHERE IDRADNIK = {$value['IDRADNIK']})";
+          $rez = $db->query($upit);
+          $odeljenje = mysqli_fetch_object($rez);
+          if(is_null($odeljenje))
+          {
+            error_reporting(0);
+          }
+          echo "<tr>
+          <th scope='row'> " .$value['IDRADNIK']."</th>
+          <td>{$value['IMERADNIK']}</td>
+          <td>{$value['PREZIMERADNIK']}</td>
+          <td>{$value['SPEC']}</td>
+          <td>{$value['POZICIJA']}</td>
+          <td>{$value['DAT_ZAP']}</td>
+          <td>{$odeljenje->NAZIVODELJENJE}</td>
+          <td>
+              <button type='button' class='btn-danger'>
+                <a data-id={$value['IDRADNIK']} class='text-white btnKarton' href='izmeniRadnika.php?id={$value['IDRADNIK']}'>Izmeni</a>
+              </button>
+            </td>
+          </tr>";
+         }
+      }
+    
 ?>

@@ -3,19 +3,25 @@
      <div class="option">
        <a href="dashboard.php"><i class="fas fa-desktop"></i> Dashboard</a>
      </div>
+     <div class="option">
+          <a href="pacijenti.php"
+            ><i class="fas fa-procedures"></i> Pacijenti</a>
+        </div>
      <?php
         if($_SESSION['status'] != 'admin')
         {
-          echo ' <div class="option">
-          <a href="pacijenti.php"
-            ><i class="fas fa-procedures"></i> Pacijenti</a
-          >
-        </div>
+          echo ' 
         <div class="option">
           <a href="lekovi.php"
             ><i class="fas fa-prescription-bottle-alt"></i> Lekovi</a
           >
-        </div>';
+        </div>
+        <div class="option">
+          <a href="dijagnoze.php"
+            ><i class="fas fa-stethoscope"></i> Dijagnoze</a
+          >
+        </div>
+        ';
         }
      ?>
     
@@ -43,6 +49,9 @@
     echo '<div class="option">
       <a href="dodajDijagnozu.php"><i class="fas fa-stethoscope"></i> Dodaj dijagnozu</a>
     </div>';
+    echo '<div class="option">
+    <a href="radnici.php"><i class="fas fa-users"></i> Radnici</a>
+  </div>';
         }
      ?>
    </div> 

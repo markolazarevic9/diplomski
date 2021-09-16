@@ -54,11 +54,21 @@
               <th scope="col">Ime</th>
               <th scope="col">Prezime</th>
               <th scope="col">JMBG</th>
-              <th scope="col">Karton</th>
-              <th scope="col">Terapija</th>
-              <th scope="col">Prijem</th>
-              <th scope="col">Otpust</th>
-              <th scope="col">Dijagnostika</th>
+              <?php
+                if($_SESSION['status'] != "admin")
+                {
+                  echo ' <th scope="col">Karton</th>
+                  <th scope="col">Terapija</th>
+                  <th scope="col">Prijem</th>
+                  <th scope="col">Otpust</th>
+                  <th scope="col">Dijagnostika</th>';
+                }
+                else
+                {
+                  echo '<th scope="col">Izmeni</th>';
+                }
+              ?>
+             
             </tr>
           </thead>
           <tbody id="tbody">

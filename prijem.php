@@ -1,4 +1,10 @@
-<?php session_start() ?>
+<?php session_start();
+  if(!isset($_SESSION['ime'])) 
+  {
+    header("location:login.php");
+  }
+
+?>
 <?php require_once('components/db_connect.php')?>
 <?php require_once('functions.php')?>
 
@@ -24,16 +30,19 @@
     <title>Prijem</title>
   </head>
   <style>
-          input,select,textarea {
+    body {
+      overflow-y: scroll;
+    }
+    input,select,textarea {
         padding: 10px;
         width: 50%;
         text-align: center;
       }
-      .container {
+    .container {
         text-align: center;
       }
-      h2 {
-        padding: 5px;
+    h2 {
+        padding: 5px !important;
         margin-bottom: 0;
       }
     
@@ -44,15 +53,15 @@
     <div class="central">
       <?php require_once("components/sidebar.php")?>
       <div class="main">
-        <!-- <h2 id="mainH">Prijem <hr></h2> -->
+        <h2 id="mainH">Prijem pacijenta <?php echo $patient->IMEPACIJENT . " ". $patient->PREZIMEPACIJENT?><hr></h2>
         <div class="container">
-            <h3>Status pacijenta</h3>
+            <h4>Status pacijenta</h4>
             <select name="status" id="status" onchange="odeljenje()">
               <option value='0'>--- Izaberite status pacijenta ---</option>
               <option value='1'>KUĆNO LEČENJE</option>
               <option value='2'>HOSPITALIZOVAN</option>
             </select>
-            <h3>Dijagnoza</h3>
+            <h4>Dijagnoza</h4>
             <select name="dijagnoza" id="dijagnoza">
               <option value='0'>--- Izaberite dijagnozu ---</option>
                 <?php
@@ -70,9 +79,9 @@
               <option value="AKUTNO">Akutno</option>
               <option value="AKUTNO">Hronično</option>
             </select>
-            <div class="div"> <h3>Izaberite odeljenje</h3></div>
-            <h3 id="h3">Napomena</h3>
-            <textarea name="napomena" id="napomena" cols="30" rows="10"></textarea>
+            <div class="div"> <h4>Izaberite odeljenje</h4></div>
+            <h4 id="h4">Napomena</h4>
+            <textarea name="napomena" id="napomena" cols="30" rows="5"></textarea>
             <input id="btn" class="btn btn-info" type="submit" value="Potvrdi">
         </div>
        

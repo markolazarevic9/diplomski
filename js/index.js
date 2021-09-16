@@ -1,6 +1,7 @@
 let errMess = document.querySelector("body > div.wrong-data");
 let searchBox = document.querySelector("#pretraga");
 let searchBoxMed = document.querySelector("#pretragaLek");
+
 if (errMess) {
   setTimeout(function () {
     errMess.style.display = "none";

@@ -59,7 +59,11 @@
            if($karton->STATUSPACIJENTA == "HOSPITALIZOVAN")
            {
                $upit3 = "SELECT * FROM SOBA WHERE SLOBODNOMESTA > 0 AND IDODELJENJE = '$odeljenje' LIMIT 1";
-               $rez = $db->query($upit3);
+               $rez3 = $db->query($upit3);
+               if($db->affected_rows($rez3 == 1))
+               {
+                   
+               }
            }
     
            if($rez1 && $rez2)

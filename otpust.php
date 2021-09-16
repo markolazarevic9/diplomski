@@ -33,7 +33,7 @@
         text-align: center;
       }
       h2 {
-        padding: 5px;
+        padding: 5px !important;
         margin-bottom: 0;
       }
       .odeljenje {
@@ -47,9 +47,9 @@
     <div class="central">
       <?php require_once("components/sidebar.php")?>
       <div class="main">
-        <!-- <h2 id="mainH">Prijem <hr></h2> -->
+        <h2>Otpust pacijenta <?php echo $patient->IMEPACIJENT . " ". $patient->PREZIMEPACIJENT?> <hr></h2>
         <div class="container">
-            <h3>Status pacijenta</h3>
+            <h4>Status pacijenta</h4>
             <select name="status" id="status" onchange="prikazDijagnoza()">
               <option value='0'>--- Izaberite status pacijenta ---</option>
               <option value='1'>ZDRAV</option>
@@ -57,8 +57,8 @@
               <option value='2'>KUĆNO LEČENJE</option>
             </select>
             
-            <h3 id="h3">Napomena</h3>
-            <textarea name="napomena" id="napomena" cols="30" rows="10"></textarea>
+            <h4 id="h4">Napomena</h4>
+            <textarea name="napomena" id="napomena" cols="30" rows="5"></textarea>
             <input id="btn" class="btn btn-info" type="submit" value="Potvrdi">
         </div>
        

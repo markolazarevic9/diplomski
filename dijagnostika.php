@@ -1,6 +1,10 @@
 <?php session_start() ?>
 <?php require_once('components/db_connect.php')?>
 <?php require_once('functions.php')?>
+<?php  
+    $idPacijent = $_GET['id'];
+    $pacijent = fetchPatient($idPacijent);
+  ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -31,7 +35,7 @@
         text-align: center;
       }
       h2 {
-        padding: 5px;
+        padding: 5px !important;
         margin-bottom: 0;
       }
       .odeljenje {
@@ -45,7 +49,7 @@
     <div class="central">
       <?php require_once("components/sidebar.php")?>
       <div class="main">
-        <h2 id="mainH">Dijagnostika <hr></h2>
+        <h2 id="mainH">Dijagnostika <?php echo $pacijent->IMEPACIJENT . " ". $pacijent->PREZIMEPACIJENT?> <hr></h2>
         <div class="container">
            <form>
                <input id='naziv' type="text" name="naziv" placeholder="Unesite naziv izveštaja">

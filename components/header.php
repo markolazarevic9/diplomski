@@ -15,9 +15,13 @@
  <?php
   require_once("functions.php");
   if(time() - $_SESSION['CREATED'] > 1000) {
-    upisLog("odjavio");
-    session_unset();
-    session_destroy();
-    header("location:login.php");
+    if(isset($_SESSION['ime']) && $_SESSION['ime'] != "")
+    {
+      upisLog("odjavio");
+      session_unset();
+      session_destroy();
+      header("location:login.php");
+    }
+    
   }
  ?>
