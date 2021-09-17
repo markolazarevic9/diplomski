@@ -4,6 +4,7 @@
 <?php  
     $idPacijent = $_GET['id'];
     $pacijent = fetchPatient($idPacijent);
+    $karton = fetchKarton($pacijent->IDPACIJENT);
   ?>
 
 <!DOCTYPE html>
@@ -51,13 +52,13 @@
       <div class="main">
         <h2 id="mainH">Dijagnostika <?php echo $pacijent->IMEPACIJENT . " ". $pacijent->PREZIMEPACIJENT?> <hr></h2>
         <div class="container">
-           <form>
+          
                <input id='naziv' type="text" name="naziv" placeholder="Unesite naziv izveštaja">
                <select name="dijagnoza" id="dijagnoza">
                    <option value="/">--- Izaberite dijagnozu ---</option>
                    <?php
                         $kartonId = $karton->IDKARTON;
-                        $upit = "SELECT * FROM DIJAGNOZA WHERE IDDIJAGNOZA IN (SELECT IDDIJAGNOZA FROM SPISAK_DIJAGNOZA WHERE IDKARTON = '$kartonId')";
+                        $upit = "SELECT * FROM dijagnoza WHERE IDDIJAGNOZA IN (SELECT IDDIJAGNOZA FROM spisak_dijagnoza WHERE IDKARTON = '$kartonId')";
                         $rez = $db->query($upit);
                         foreach($rez as $value)
                         {
@@ -72,7 +73,6 @@
                <textarea id='anamneza' name="anamneza" id="anamneza" cols="30" rows="5" placeholder="Unesite anamnezu"></textarea>
                <textarea id='zakljucak'name="zakljucak" id="zakljucak" cols="30" rows="5" placeholder="Unesite zakljucak"></textarea>
                <input id="btn" class="btn btn-info" type="submit" value="Potvrdi">
-           </form>
         </div>
        
       </div>
@@ -93,6 +93,7 @@
               if(naziv != "" && opis != "" && zakljucak != "" && dijagnoza != "/") {
                   $.get("ajax/izvestaj.php",{naziv:naziv,id:patientId,uzorak:uzorak,vrednost:vrednost,opis:opis,anamneza:anamneza,zakljucak:zakljucak,dijagnoza:dijagnoza},function(odg) {
                     alert(odg);
+                    window.reload();
                   })
               }
 

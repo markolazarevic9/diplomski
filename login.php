@@ -44,7 +44,7 @@
         $_SESSION['idKorisnik'] = $podaci['IDRADNIK'];
         $_SESSION['status'] = $prijavljeni->STATUS;
         $_SESSION['CREATED'] = time();
-        upisLog("prijavio");
+        upisLog("Prijava");
         header("location: dashboard.php");
       }
     }

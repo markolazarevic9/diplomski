@@ -15,7 +15,7 @@ body {
 }
 .central {
   display: flex;
-  height: 100vh;
+  height: 110% !important;
 }
 .sidebar {
   background-color: rgb(26, 113, 113);
@@ -25,6 +25,7 @@ body {
   align-items: center;
   padding-right: 0;
   padding-left: 0;
+  height: 300vh;
 }
 #eBolnica {
   flex-basis: 70%;

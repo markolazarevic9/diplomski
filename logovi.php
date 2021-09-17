@@ -49,18 +49,40 @@
 
       <div class="main container">
           <table class="table">
+              <thead>
+                  <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Ime</th>
+                  <th scope="col">Prezime</th>
+                  <th scope="col">Istorija</th>
+                  <th scope="col">Datum i vreme</th>
+                </tr>
+            </thead>
              <tbody>
                 <?php
-                    $myfile = fopen("logs/logs.txt", "r") or die("Unable to open file!");
-                    if ($myfile) {
-                        while (($line = fgets($myfile)) !== false) {
-                            echo '<tr scope="row">'.$line. ' <br></tr>';
-                        }
-                    
-                        fclose($myfile);
-                    } else {
-                        // error opening the file.
-                    } 
+                    require_once("classes/db.php");
+                    $db = new Db();
+                    if(!$db->connect())
+                    {
+                      echo "Greška prilikom konekcije na bazu!!!<br>".$db->error();
+                      exit();
+                  }
+
+                  $upit = "SELECT * FROM LOG";
+                  $rez = $db->query($upit);
+                  foreach($rez as $log)
+                  {
+                    $datum = showDate($log['DATUM']);
+                    $radnik = fetchRadnik($log['IDRADNIK']);
+                    echo "<tr> 
+                    <th scope='row'> {$log['IDLOG']} </th>
+                    <th> {$radnik->IMERADNIK}</th>
+                    <th> {$radnik->PREZIMERADNIK} </th>
+                    <th>{$log['ISTORIJA']}</th>
+                    <th>{$datum}</th>
+                    </tr>";
+                  }
+
                 ?>
              </tbody>
         </table>    

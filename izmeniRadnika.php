@@ -19,6 +19,10 @@
     $upit = "SELECT * FROM ADRESA WHERE IDADRESA = (SELECT IDADRESA FROM RADNIK WHERE IDRADNIK = {$radnik->IDRADNIK})";
     $rez = $db->query($upit);
     $adresa = mysqli_fetch_object($rez);
+    $idRadnika = $_GET['id'];
+    $upitPristup = "SELECT * FROM PRISTUP WHERE IDRADNIK = {$radnik->IDRADNIK}";
+    $rezPristup = $db->query($upitPristup);
+    $pristup = mysqli_fetch_object($rezPristup);
 ?>
 
 <!DOCTYPE html>
@@ -38,7 +42,8 @@
     <style>
       h2 {
         font-size:25px;
-        padding: 10px;
+        padding: 5px !important;
+        margin-bottom: 0;
       }
       a:hover {
         color:white;
@@ -50,10 +55,6 @@
       }
       .container {
         text-align: center;
-      }
-      h2 {
-        padding: 5px;
-        margin-bottom: 0;
       }
       body {
           overflow-y: scroll;
@@ -69,59 +70,8 @@
       <div class="main container">
         <h2>Izmena radnika <?php echo $radnik->IMERADNIK . " ". $radnik->PREZIMERADNIK?> <hr></h2>
         <div id="div"></div>
-        <?php
-           if(isset($_GET['potvrdi']))
-           {
-            $id = $_GET['id'];
-            $ime = $_GET['ime'];
-            $prezime = $_GET['prezime'];
-            $adresa = $_GET['adresa'];
-            $odeljenje = $_GET['odeljenje'];
-            $spec = $_GET['spec'];
-            $pozicija = $_GET['pozicija'];
-            $datZap = $_GET['datZap'];
-            $vakcinisan = $_GET['vakcinisan'];
-
-            $isEmpty = $ime == "" || $prezime == "" || $adresa == "" || $odeljenje == "" || $spec == "" || $pozicija == "" || $datZap == "";
-            if($isEmpty)
-            {
-                echo '<div class="alert alert-danger" role="alert">
-                Niste uneli sve podatke
-                </div>';
-            }
-            else
-            {
-                $upit = "UPDATE radnik SET IMERADNIK = '$ime'
-                ,PREZIMERADNIK = '$prezime'
-                ,IDADRESA = '$adresa',
-                SPEC = '$spec',DAT_ZAP = '$datZap',
-                VAKCINISAN = '$vakcinisan',
-                IDODELJENJE = '$odeljenje',
-                POZICIJA = '$pozicija' WHERE IDRADNIK = '$id'";
-                $rez = $db->query($upit);
-
-                if(!$rez)
-                {
-                    echo   '<div class="alert alert-danger" role="alert">
-                    Nije uspela izmena podataka
-                    </div>';
-                    echo $db->error();
-                 
-                }
-                else
-                {
-                    echo '<div class="alert alert-success" role="alert">
-                    Uspesno izmenjeni podaci
-                    </div>';
-                }
-            }
-            }
-
-
-
-        
-        ?>
-        <form action="izmeniRadnika.php" method="GET">
+      
+        <form>
             <input  type="hidden" id="id" name='id' value=<?php echo $_GET['id']?>>
             <input type="text" id='ime' name="ime" value=<?php echo $radnik->IMERADNIK?>>
             <input type="text" id='prezime' name="prezime" value=<?php echo $radnik->PREZIMERADNIK?>>
@@ -180,11 +130,39 @@
                     }
                 ?>
             </select>
+            <h5>Korisnicko ime</h5>
+            <input type="text" name="korisnickoIme" id="korisnickoIme" value=<?php echo $pristup->KORISNICKOIME?>>
+            <h5>Lozinka</h5>
+            <input type="text" name="lozinka" id="lozinka" value=<?php echo $pristup->LOZINKA?>>
 
 
             <input class="btn btn-info" id='potvrdi' type="submit" value="Potvrdi" name='potvrdi'>
         </form>
-      </div> <br>
+      </div>
+      <script>
+        
+    let btn =  document.querySelector("#potvrdi");
+    btn.addEventListener("click", () => {
+      let ime = document.querySelector("#ime").value;
+      let prezime = document.querySelector("#prezime").value;
+      let id = document.querySelector("#id").value;
+      let odeljenje = document.querySelector("#odeljenje").value;
+      let adresa = document.querySelector("#adresa").value;
+      let spec = document.querySelector("#spec").value;
+      let pozicija = document.querySelector("#pozicija").value;
+      let datZap = document.querySelector("#datZap").value;
+      let vakcinisan = document.querySelector("#vakcinisan").value;
+      let lozinka = document.querySelector("#lozinka").value;
+      let korisnickoIme = document.querySelector("#korisnickoIme").value;
+
+
+
+      $.get("ajax/izmeniRadnika.php",{ime:ime,prezime:prezime,id:id,odeljenje:odeljenje,adresa:adresa,vakcinisan:vakcinisan,spec:spec,pozicija:pozicija,datZap:datZap,vakcinisan:vakcinisan,lozinka:lozinka,korisnickoIme:korisnickoIme},function(odg) {
+        alert(odg);
+      })
+
+    })
+      </script>
     </div>
  
      

@@ -67,47 +67,8 @@
       <div class="main container">
         <h2>Izmena pacijenta <?php echo $pacijent->IMEPACIJENT . " ". $pacijent->PREZIMEPACIJENT?> <hr></h2>
         <div id="div"></div>
-        <?php
-            if(isset($_GET['potvrdi']))
-            {
-                $ime = $_GET['ime'];
-                $prezime = $_GET['prezime'];
-                $id = $_GET['id'];
-                $brtel = $_GET['brtel'];
-                $adresa = $_GET['adresa'];
-                $vakcinacija = $_GET['vakcinacija'];
-                $alergije = $_GET['alergije'];
-                $covidTest = $_GET['covidTest'];
-
-                if($ime == "" || $prezime == "" || $brtel == "" || $adresa == "/" || $vakcinacija == "/" || $covidTest == "/" || $alergije == "")
-                {
-                    echo '<div class="alert alert-danger" role="alert">
-                    Niste uneli sve podatke
-                    </div>';
-                }
-                else
-                {
-                    $upit2 = "UPDATE KARTON SET IDADRESA = '$adresa',VAKCINISAN = '$vakcinacija',ALERGIJE = '$alergije',TEST  = '$covidTest' WHERE IDPACIJENT = '$id'";
-                    $rez2 = $db->query($upit2);
-                    $upit = "UPDATE pacijent SET IMEPACIJENT = '$ime',PREZIMEPACIJENT ='$prezime',BROJTELEFONA = '$brtel' WHERE IDPACIJENT = '$id'";
-                    $rez = $db->query($upit);
-                    if(!$rez || !$rez2)
-                    {
-                        echo '<div class="alert alert-danger" role="alert">
-                            Nije uspeo upit
-                        </div>';
-                    }
-                    else
-                    {
-                        echo '<div class="alert alert-info" role="alert">
-                        Uspešno izmenjen pacijent
-                      </div>';
-                    }
-                }
-            }
-        
-        ?>
-        <form action="izmeni.php" method="GET">
+       
+        <form>
             <input  type="hidden" id="id" name='id' value=<?php echo $_GET['id']?>>
             <input type="text" id='ime' name="ime" value=<?php echo $pacijent->IMEPACIJENT?>>
             <input type="text" id='prezime' name="prezime" value=<?php echo $pacijent->PREZIMEPACIJENT?>>
@@ -155,6 +116,23 @@
             document.querySelector("body > div.central > div.main.container > div").style.display = "none";
      }, 2000);
     }
+
+    let btn =  document.querySelector("#potvrdi");
+    btn.addEventListener("click", () => {
+      let ime = document.querySelector("#ime").value;
+      let prezime = document.querySelector("#prezime").value;
+      let id = document.querySelector("#id").value;
+      let brtel = document.querySelector("#brtel").value;
+      let adresa = document.querySelector("#adresa").value;
+      let vakcinacija = document.querySelector("#vakcinacija").value;
+      let alergije = document.querySelector("#alergije").value;
+      let covidTest = document.querySelector("#covidTest").value;
+
+      $.get("ajax/izmeniPacijenta.php",{ime:ime,prezime:prezime,id:id,brtel:brtel,adresa:adresa,vakcinacija:vakcinacija,alergije:alergije,covidTest:covidTest},function(odg) {
+        alert(odg);
+      })
+
+    })
   </script>
   </body>
 </html>

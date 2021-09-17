@@ -17,7 +17,7 @@
   if(time() - $_SESSION['CREATED'] > 1000) {
     if(isset($_SESSION['ime']) && $_SESSION['ime'] != "")
     {
-      upisLog("odjavio");
+      upisLog("Odjava");
       session_unset();
       session_destroy();
       header("location:login.php");

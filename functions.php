@@ -1,9 +1,25 @@
 <?php
     function upisLog($log) {
+        session_start();
         $file = fopen("logs/logs.txt","a");
         $txt = "\n". $_SESSION['ime'] . " " . $_SESSION['prezime'] . " se " . $log . " ".  date("Y-m-d h:i:sa");
         fwrite($file,$txt);
         fclose($file);
+
+        require_once("classes/db.php");
+        $db = new Db();
+        if(!$db->connect())
+        {
+          echo "Greška prilikom konekcije na bazu!!!<br>".$db->error();
+          exit();
+       }
+       $id = $_SESSION['idKorisnik'];
+       $upit = "INSERT INTO LOG (IDRADNIK,ISTORIJA) VALUES ('$id','$log')";
+       $rez = $db->query($upit);
+       if(!$rez)
+       {
+         echo "greska";
+       }
     }
 
     function logOf() {
@@ -16,6 +32,8 @@
     }
 
     function showPatiens($list) {
+      error_reporting(0);
+        session_start();
         foreach($list as $value) 
         {   
             echo "<tr>
@@ -23,17 +41,18 @@
             <td>{$value['IMEPACIJENT']}</td>
             <td>{$value['PREZIMEPACIJENT']}</td>
             <td>{$value['JMBG']}</td>";
-            if($_SESSION['status'] != "admin")
+            if($_SESSION['status'] == "lekar")
             {
-              echo "<td>
-              <button type='button' class='btn-primary'>
-                <a data-id={$value['IDPACIJENT']} class='text-white btnKarton' href='karton.php?id={$value['IDPACIJENT']}'>Karton</a>
-              </button>
+              echo "
+              <td>
+                <button type='button' class='btn-primary'>
+                  <a data-id={$value['IDPACIJENT']} class='text-white btnKarton' href='karton.php?id={$value['IDPACIJENT']}'>Karton</a>
+                </button>
             </td>
             <td>
-            <button class='btn-success'>
-              <a data-id={$value['IDPACIJENT']} class='text-white btnKarton' href='terapija.php?id={$value['IDPACIJENT']}'>Terapija</a>
-            </button>
+              <button class='btn-success'>
+                <a data-id={$value['IDPACIJENT']} class='text-white btnKarton' href='terapija.php?id={$value['IDPACIJENT']}'>Terapija</a>
+              </button>
           </td>
           <td>
             <button class='btn-info'>
@@ -49,16 +68,36 @@
             <button class='btn-warning'>
               <a data-id={$value['IDPACIJENT']} class='text-dark btnKarton' href='dijagnostika.php?id={$value['IDPACIJENT']}'>Dijagnostika</a>
             </button>
-          </td>";
-            } 
-            else
-            {
-              echo " <td>
-              <button class='btn-warning'>
-                <a data-id={$value['IDPACIJENT']} class='text-dark btnKarton' href='izmeni.php?id={$value['IDPACIJENT']}'>Izmeni</a>
-              </button>
-            </td>";
-            }
+          </td>
+          <td>
+          <button class='btn-light'>
+            <a data-id={$value['IDPACIJENT']} class='text-dark btnKarton' href='dodajDijagnozuPacijentu.php?id={$value['IDPACIJENT']}'>Dijagnoze</a>
+          </button>
+        </td>";
+        }
+        if($_SESSION['status'] == "tehnicar")
+        {
+          echo "
+          <td>
+            <button type='button' class='btn-primary'>
+              <a data-id={$value['IDPACIJENT']} class='text-white btnKarton' href='karton.php?id={$value['IDPACIJENT']}'>Karton</a>
+            </button>
+         </td>
+         <td>
+          <button class='btn-success'>
+            <a data-id={$value['IDPACIJENT']} class='text-white btnKarton' href='terapija.php?id={$value['IDPACIJENT']}'>Terapija</a>
+          </button>
+         </td>";
+        }
+        if($_SESSION['status'] == "admin")
+        {
+          echo " <td>
+          <button class='btn-warning'>
+            <a data-id={$value['IDPACIJENT']} class='text-dark btnKarton' href='izmeni.php?id={$value['IDPACIJENT']}'>Izmeni</a>
+          </button>
+        </td>";
+        }
+       
             
          echo "</tr>";
         }
@@ -81,8 +120,8 @@
           <td>{$value['NAZIVDIJAGNOZA']}</td>
           <td>{$value['SIFRADIJAGNOZA']}</td>
           <td>{$value['OPISDIJAGNOZA']}</td>
-          <td>{$diagnosis->datum_dijagnostike}</td>
-          <td>{$diagnosis->datum_izlecenja}</td>
+          <td>{$diagnosis->DATUM_DIJAGNOSTIKE}</td>
+          <td>{$diagnosis->DATUM_IZLECENJA}</td>
           <td>{$diagnosis->TIP}</td>
         </tr>";
       }
@@ -205,7 +244,7 @@
           <td>{$value['UZORAK']}</td>
           <td>{$value['VREDNOST']}</td>
           <td>{$value['OPIS']}</td>
-          <td>{$value['datum_analiza']}</td>
+          <td>{$value['DATUM_ANALIZA']}</td>
           <td>{$lekar->IMERADNIK}" . " " ."{$lekar->PREZIMERADNIK}</td>
           <td><button class='btn btn-primary'><a target='_blank' href='izvestaj.php?IDANALIZA={$value['IDANALIZA']}&&id={$_GET['id']}'>Štampa</a></button></td>
         </tr>";
@@ -369,6 +408,13 @@
             </td>
           </tr>";
          }
+      }
+
+      function showDate($datum)
+      {
+        $datum = explode("-",$datum);
+        $datum[2] = explode(" ",$datum[2]);
+        return $datum[2][0] . "." .$datum[1] ."." . $datum[0] . "." .$datum[2][1];
       }
     
 ?>

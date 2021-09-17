@@ -85,7 +85,7 @@
 
 
       btn.addEventListener("click", function() {
-        lekText = Number(lek.value) + 1;
+        lekText = lek.value;
         if(lek.value == "/" || doza.value == "" || aplikovanje.value == "" || period.value == "" || naDan.value == "") {
           alert("Niste uneli sve parametre");
         } else {
