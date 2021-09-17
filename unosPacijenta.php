@@ -83,10 +83,10 @@
                  else
                  {
                      require_once("components/db_connect.php");
-                     $upit  = "INSERT INTO PACIJENT(IMEPACIJENT,PREZIMEPACIJENT,JMBG,LBO,POL,BROJTELEFONA) VALUES('$ime','$prezime','$jmbg','$lbo','$pol','$brtel')";
+                     $upit  = "INSERT INTO pacijent(IMEPACIJENT,PREZIMEPACIJENT,JMBG,LBO,POL,BROJTELEFONA) VALUES('$ime','$prezime','$jmbg','$lbo','$pol','$brtel')";
                      $rez = $db->query($upit);
                      $id = $db->insert_id();
-                     $upit2 = "INSERT INTO KARTON (IDPACIJENT,IDADRESA,VAKCINISAN,ALERGIJE,KRVNAGRUPA,TEST) VALUES ('$id','$adresa','$vakcinacija','$alergije','$krvnaGrupa','$covidTest')";
+                     $upit2 = "INSERT INTO pacijent (IDPACIJENT,IDADRESA,VAKCINISAN,ALERGIJE,KRVNAGRUPA,TEST) VALUES ('$id','$adresa','$vakcinacija','$alergije','$krvnaGrupa','$covidTest')";
                      $rez2 = $db->query($upit2);
                      if(!$rez || !$rez2)
                      {
@@ -118,7 +118,7 @@
             <select name="adresa" id="adresa">
                 <option value="/">--- Izaberite adresu ---</option>
                 <?php
-                    $upit = "SELECT * FROM ADRESA";
+                    $upit = "SELECT * FROM adresa";
                     $rez = $db->query($upit);
                     foreach($rez as $adresa)
                     {
