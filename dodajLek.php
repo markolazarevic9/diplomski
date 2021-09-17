@@ -77,7 +77,7 @@
                  else
                  {
                      require_once("components/db_connect.php");
-                     $upit = "INSERT INTO LEK(NAZIVLEK,JEDMERELEK,KOLICINALEK,SUPSTANCA,TIPLEKA,OBLIK) VALUES ('$naziv','$jedMer','$kolicina','$supstanca','$tip','$oblik')";
+                     $upit = "INSERT INTO LEK(NAZIVLEK,JEDMERELEK,KOLICINALEK,SUPSTANCA,TIPLEKA,OBLIK) VALUES ('$naziv','$jedMere','$kolicina','$supstanca','$tip','$oblik')";
                      $rez = $db->query($upit);
                      if(!$rez)
                      {

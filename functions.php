@@ -30,6 +30,18 @@
             session_destroy();
         }
     }
+    function showDate($datum)
+    {
+      $datum = explode("-",$datum);
+      $datum[2] = explode(" ",$datum[2]);
+      return $datum[2][0] . "." .$datum[1] ."." . $datum[0] . "." .$datum[2][1];
+    }
+    function showOnlyDate($datum)
+    {
+      $datum = explode("-",$datum);
+      $datum[2] = explode(" ",$datum[2]);
+      return $datum[2][0] . "." .$datum[1] ."." . $datum[0] . ".";
+    }
 
     function showPatiens($list) {
       error_reporting(0);
@@ -115,13 +127,23 @@
       foreach($list as $value) 
       {   
           $diagnosis = showDiagnosisList($value['IDDIJAGNOZA']);
+          $datum1 = showOnlyDate($diagnosis->DATUM_DIJAGNOSTIKE);
+          if(is_null($diagnosis->DATUM_IZLECENJA))
+          {
+            $datum2 = "";
+          }
+          else
+          {
+            $datum2 = showOnlyDate($diagnosis->DATUM_IZLECENJA);
+
+          }
           echo "<tr>
           <th scope='row'> " .$value['IDDIJAGNOZA'] + 1 ."</th>
           <td>{$value['NAZIVDIJAGNOZA']}</td>
           <td>{$value['SIFRADIJAGNOZA']}</td>
           <td>{$value['OPISDIJAGNOZA']}</td>
-          <td>{$diagnosis->DATUM_DIJAGNOSTIKE}</td>
-          <td>{$diagnosis->DATUM_IZLECENJA}</td>
+          <td>{$datum1}</td>
+          <td>{$datum2}</td>
           <td>{$diagnosis->TIP}</td>
         </tr>";
       }
@@ -210,25 +232,27 @@
        } else {
          $medTeh = "";
        }
+       $datum  = showOnlyDate($terapija->DATUM_TERAPIJA);
         echo "<tr>
         <th scope='row'> " .$counter ."</th>
         <td>{$lek->NAZIVLEK}</td>
         <td>{$terapija->DOZA}</td>
         <td>{$lek->JEDMERELEK}</td>
         <td>{$terapija->APLIKOVANJE}</td>
-        <td>{$terapija->DATUM_TERAPIJA}</td>
+        <td>{$datum}</td>
         <td>{$lekar->IMERADNIK}". " " ." {$lekar->PREZIMERADNIK}</td>
         <td>{$value['DATUM']}</td> ";
-        if($value['IDTEHNICAR'] != null) 
+        if(!is_null($value['IDTEHNICAR'])) 
         {
           echo "<td>{$medTeh->IMERADNIK}". " " ." {$medTeh->PREZIMERADNIK}</td>
           </tr>;";
-        } else
-        {
-          echo `<td>{$medTeh}</td>
-          </tr>";`;
         } 
-     
+        else
+        {
+          echo `<td>Nesto</td>
+          ";`;
+        } 
+      echo "</tr>";
       $counter++;
       }
     }
@@ -410,11 +434,6 @@
          }
       }
 
-      function showDate($datum)
-      {
-        $datum = explode("-",$datum);
-        $datum[2] = explode(" ",$datum[2]);
-        return $datum[2][0] . "." .$datum[1] ."." . $datum[0] . "." .$datum[2][1];
-      }
+ 
     
 ?>

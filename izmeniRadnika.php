@@ -106,7 +106,7 @@
                         } 
                         else
                         {
-                            echo "<option selected value='{$value['IDODELJENJE']}'>{$value['NAZIVODELJENJE']}</option>";
+                            echo "<option value='{$value['IDODELJENJE']}'>{$value['NAZIVODELJENJE']}</option>";
 
                         }
                     }

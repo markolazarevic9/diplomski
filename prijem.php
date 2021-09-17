@@ -80,6 +80,8 @@
               <option value="AKUTNO">Hronično</option>
             </select>
             <div class="div"> <h4>Izaberite odeljenje</h4></div>
+            <div class="div2"></div>
+
             <h4 id="h4">Napomena</h4>
             <textarea name="napomena" id="napomena" cols="30" rows="5"></textarea>
             <input id="btn" class="btn btn-info" type="submit" value="Potvrdi">
@@ -89,24 +91,35 @@
     </div>
 
     <script>
+        let div2 = document.querySelector(".div2");
+        div2.style.display = "none";
         let btn =  document.querySelector("#btn");
         let url = new URL(window.location.href);
         let patientId = url.searchParams.get("id");
         let soba = document.createElement("select");
-        soba.innerHTML = "<option value='/'>--- Izaberite odeljenje ---</option> <option value='4'>Intenzivna nega</option> <option value='1'>Poluintenzivna nega</option>";
+        soba.innerHTML = "<option  value='/'>--- Izaberite odeljenje ---</option> <option value='4'>Intenzivna nega</option> <option value='1'>Poluintenzivna nega</option>";
         soba.classList.add("odeljenje");
         soba.setAttribute("name","odeljenje");
+        
         document.querySelector(".div").appendChild(soba);
+     
        
         function odeljenje() {
          
           if(document.querySelector("#status").options[document.querySelector("#status").value].text == "HOSPITALIZOVAN") {
-            document.querySelector(".odeljenje").style.display = "inline";
-           
+            document.querySelector(".div").style.display = "inline";
           } else {
-            document.querySelector(".odeljenje").style.display = "none";
+            document.querySelector(".div").style.display = "none";
           }
          
+        }
+        if(document.querySelector(".odeljenje")) {
+          let odeljenje = document.querySelector(".odeljenje");
+          odeljenje.addEventListener("change",function() {
+            $.get("ajax/soba.php",{odeljenje:odeljenje.value},function(odg) {
+              $(".div2").html(odg);
+            })
+          })
         }
       
         btn.addEventListener("click", () => {
@@ -116,6 +129,7 @@
             alert(odg);
           })
         })
+
     </script>
   </body>
 </html>

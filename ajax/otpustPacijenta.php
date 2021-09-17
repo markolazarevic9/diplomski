@@ -30,7 +30,7 @@
     
         $karton = fetchKarton($pacijentId);
     
-        if($karton->STATUSPACIJENTA == "ZDRAV" || $karton->STATUSPACIJENTA == "PREMINUO")
+        if($karton->STATUSPACIJENTA == "ZDRAV" || $karton->STATUSPACIJENTA == "PREMINUO" || is_null($karton->STATUSPACIJENTA))
         {
             echo "Nije moguće otpustiti zadatog pacijenta";
         }

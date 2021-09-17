@@ -4,6 +4,7 @@
   require_once("components/db_connect.php");
   $upit = "SELECT * FROM PACIJENT";
   $rez = $db -> query($upit);
+
 ?>
 
 <!DOCTYPE html>
