@@ -79,8 +79,36 @@
               <option value="AKUTNO">Akutno</option>
               <option value="AKUTNO">Hronično</option>
             </select>
-            <div class="div"> <h4>Izaberite odeljenje</h4></div>
-            <div class="div2"></div>
+            <div class="div"> 
+              <h4>Izaberite odeljenje</h4> 
+              <select name="odeljenje" id="odeljenje"> 
+                  <option  value='/'>--- Izaberite odeljenje ---</option> 
+                  <?php
+                    $upit = "SELECT * FROM ODELJENJE WHERE IDODELJENJE IN (SELECT IDODELJENJE FROM SOBA WHERE SLOBODNOMESTA > 0)";
+                    $rez = $db->query($upit);
+                    if($db->affected_rows() > 0)
+                    {
+                      foreach($rez as $odeljenje)
+                      {
+                        echo "<option value={$odeljenje['IDODELJENJE']}>{$odeljenje['NAZIVODELJENJE']}</option>";
+                      }
+                    }
+                  ?>
+              
+             </select>
+           </div>
+           <div class="div2">
+              <h4>Izaberite sobu</h4>
+              <select name="soba" id="soba">
+                  <option value="/">--- Izaberite sobu ---</option>
+              </select>
+           </div>
+           <div class="div3">
+              <h4>Izaberite krevet</h4>
+              <select name="krevet" id="krevet">
+                  <option value="/">--- Izaberite krevet ---</option>
+              </select>
+           </div>
 
             <h4 id="h4">Napomena</h4>
             <textarea name="napomena" id="napomena" cols="30" rows="5"></textarea>
@@ -91,33 +119,44 @@
     </div>
 
     <script>
+        document.querySelector(".div").style.display = "none";
         let div2 = document.querySelector(".div2");
         div2.style.display = "none";
+        let div3 = document.querySelector(".div3");
+        div3.style.display = "none";
         let btn =  document.querySelector("#btn");
         let url = new URL(window.location.href);
         let patientId = url.searchParams.get("id");
-        let soba = document.createElement("select");
-        soba.innerHTML = "<option  value='/'>--- Izaberite odeljenje ---</option> <option value='4'>Intenzivna nega</option> <option value='1'>Poluintenzivna nega</option>";
-        soba.classList.add("odeljenje");
-        soba.setAttribute("name","odeljenje");
-        
-        document.querySelector(".div").appendChild(soba);
-     
-       
+        let dijagnoza = document.querySelector("#dijagnoza");
+        let tip = document.querySelector("#tip");
+
+
+ 
         function odeljenje() {
          
           if(document.querySelector("#status").options[document.querySelector("#status").value].text == "HOSPITALIZOVAN") {
             document.querySelector(".div").style.display = "inline";
+            div2.style.display = "inline";
+            div3.style.display = "inline"
           } else {
             document.querySelector(".div").style.display = "none";
+            div2.style.display = "none";
+            div3.style.display = "none";
+
           }
          
         }
-        if(document.querySelector(".odeljenje")) {
-          let odeljenje = document.querySelector(".odeljenje");
+        if(document.querySelector("#odeljenje")) {
+          let odeljenje = document.querySelector("#odeljenje");
           odeljenje.addEventListener("change",function() {
             $.get("ajax/soba.php",{odeljenje:odeljenje.value},function(odg) {
-              $(".div2").html(odg);
+              document.querySelector("#soba").innerHTML = odg;
+            })
+          })
+          let soba = document.querySelector("#soba");
+          soba.addEventListener("change",function() {
+            $.get("ajax/krevet.php",{soba:soba.value},function(odg) {
+              document.querySelector("#krevet").innerHTML =odg;
             })
           })
         }
@@ -125,7 +164,12 @@
         btn.addEventListener("click", () => {
           let status = document.querySelector("#status").options[document.querySelector("#status").value].text;
           let napomena = document.querySelector("#napomena").value;
-          $.get("ajax/prijemPacijenta.php",{status:status,napomena:napomena,patientId:patientId,odeljenje:odeljenje},function(odg) {
+          let odeljenje = document.querySelector("#odeljenje");
+          let soba = document.querySelector("#soba");
+          let krevet = document.querySelector("#krevet");
+        
+
+          $.get("ajax/prijemPacijenta.php",{dijagnoza:dijagnoza.value,tip:tip.value,status:status,napomena:napomena,patientId:patientId,odeljenje:odeljenje.value,soba:soba.value,krevet:krevet.value},function(odg) {
             alert(odg);
           })
         })

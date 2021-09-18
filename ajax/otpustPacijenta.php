@@ -36,10 +36,20 @@
         }
         else
         {
-            
             $kartonId = $karton->IDKARTON;
+            if($karton->STATUSPACIJENTA == "HOSPITALIZOVAN")
+            {
+                $upit3 = "UPDATE KREVET SET IDKARTON = NULL WHERE IDKARTON = '$kartonId'";
+                $rez3 = $db->query($upit3);
+                $upit4 = "UPDATE SOBA SET SLOBODNOMESTA = SLOBODNOMESTA+1 WHERE IDSOBA = (SELECT IDSOBA FROM KARTON WHERE IDKARTON = '$kartonId')";
+                $rez4 = $db->query($upit4);
+                $upit5 = "UPDATE KARTON SET IDSOBA = NULL WHERE IDKARTON = '$kartonId'";
+                $rez5 = $db->query($upit5);
+            }
+            
             $upit = "INSERT INTO OTPUST(IDKARTON,IDRADNIK,OTPUST_NAPOMENA) VALUES('$kartonId','$lekar','$napomena')";
             $upit2 = "UPDATE KARTON SET STATUSPACIJENTA = '$status' WHERE IDKARTON = '$kartonId'";
+            
     
             $rez1 = $db->query($upit);
             $rez2 = $db->query($upit2);

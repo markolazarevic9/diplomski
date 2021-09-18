@@ -365,11 +365,12 @@
       foreach($rez as $value)
       {
         $lekar = fetchRadnik($value['IDRADNIK']);
+        $datum = showOnlyDate($value['DATUM_PRIJEM']);
         echo 
         "
           <tr>
             <th scope='row'>{$value['IDPRIJEM']}</th>
-            <td>{$value['DATUM_PRIJEM']}</td>
+            <td>{$datum}</td>
             <td>{$value['STATUS_PRIJEM']}</td>
             <td>{$lekar->IMERADNIK}" . " " ." {$lekar->PREZIMERADNIK}</td>
           </tr>
@@ -384,6 +385,8 @@
 
       foreach($rez as $value)
       {
+        $datum = showOnlyDate($value['DATUM_OTPUST']);
+
         $lekar = fetchRadnik($value['IDRADNIK']);
         echo 
         "
@@ -434,6 +437,21 @@
          }
       }
 
+      function fetchDijagnoza($id)
+      {
+        require_once("classes/db.php");
+        $db = new Db();
+        if(!$db->connect())
+        {
+            echo "Greška prilikom konekcije na bazu!!!<br>".$db->error();
+            exit();
+       }
+
+       $upit = "SELECT * FROM DIJAGNOZA WHERE IDDIJAGNOZA = {$id}";
+       $rez = $db->query($upit);
+
+       return mysqli_fetch_object($rez);
+      }
  
     
 ?>

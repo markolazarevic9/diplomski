@@ -33,6 +33,9 @@
         padding: 3px;
         border-radius: 7px;
       }
+      body {
+        overflow-y: scroll;
+      }
    </style>
   <body>
    <?php require_once("components/header.php")?>

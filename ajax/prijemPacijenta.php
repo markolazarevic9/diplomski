@@ -21,6 +21,8 @@
          $karton = mysqli_fetch_object($rez);
          return $karton;
         }
+
+
     if($_SESSION['status'] == "lekar")
     {
         $status = $_GET['status'];
@@ -29,52 +31,88 @@
         $lekar = $_SESSION['idKorisnik'];
         $dijagnoza = $_GET['dijagnoza'];
         $tip = $_GET['tip'];
-        $odeljenje = $_GET['odeljenje'];
+        $karton = fetchKarton($pacijentId);
 
-        if($status == "" || $dijagnoza == "/" || $tip == "/")
+        if($status == "KUĆNO LEČENJE")
         {
-            echo '<div class="alert alert-danger" role="alert">
-            Niste uneli sve podatke
-           </div>';
+            if($karton->STATUSPACIJENTA == $status || $karton->STATUSPACIJENTA == "HOSPITALIZOVAN" || $karton->STATUSPACIJENTA == "PREMINUO")
+            {
+                echo "Pacijent je već na kućnom lečenju ili je hospitalizovan";
+            }
+            else
+            {
+                $datum = date("d-m-Y H:i:s",time());
+                $kartonId = $karton->IDKARTON;
+                $upit = "INSERT INTO PRIJEM(IDKARTON,IDRADNIK,STATUS_PRIJEM) VALUES('$kartonId','$lekar','$napomena')";
+                $upit2 = "UPDATE KARTON SET STATUSPACIJENTA = '$status' WHERE IDKARTON = '$kartonId'";
+                $upit6 = "INSERT INTO spisak_dijagnoza (IDDIJAGNOZA,IDKARTON,TIP,DATUM_DIJAGNOSTIKE) VALUES ('$dijagnoza','$kartonId','$tip',$datum)";
+                $rez6 = $db->query($upit6);
+                $rez1 = $db->query($upit);
+                $rez2 = $db->query($upit2);
+                echo "Uspesno zabelezen prijem";
+            }
         }
         else
         {
-            
-       $karton = fetchKarton($pacijentId);
-    
-       if($karton->STATUSPACIJENTA == "HOSPITALIZOVAN")
-       {
-           echo "Pacijent je već hospitalizovan";
-       }
-       else
-       {
-           
-           $kartonId = $karton->IDKARTON;
-           $upit = "INSERT INTO PRIJEM(IDKARTON,IDRADNIK,STATUS_PRIJEM) VALUES('$kartonId','$lekar','$napomena')";
-           $upit2 = "UPDATE KARTON SET STATUSPACIJENTA = '$status' WHERE IDKARTON = '$kartonId'";
-   
-           $rez1 = $db->query($upit);
-           $rez2 = $db->query($upit2);
+            $odeljenje = $_GET['odeljenje'];
+            $soba = $_GET['soba'];
+            $krevet = $_GET['krevet'];
 
-           if($karton->STATUSPACIJENTA == "HOSPITALIZOVAN")
-           {
-               $upit3 = "SELECT * FROM SOBA WHERE SLOBODNOMESTA > 0 AND IDODELJENJE = '$odeljenje' LIMIT 1";
-               $rez3 = $db->query($upit3);
-               if($db->affected_rows($rez3 == 1))
-               {
-                   
-               }
-           }
-    
-           if($rez1 && $rez2)
-           {
-               echo "Uspešno zabeležen prijem";
-           }
-   
-       }
+            if($karton->STATUSPACIJENTA == $status || $karton->STATUSPACIJENTA == "KUĆNO LEČENJE" || $karton->STATUSPACIJENTA == "PREMINUO")
+            {
+                echo "Pacijent je već na kućnom lečenju ili je hospitalizovan";
+            }
+            else
+            {
+                if($odeljenje == "/" || $soba == "/" || $krevet == "/")
+                {
+                    echo "Niste izabrali odeljenje, sobu ili krevet";
+                }
+                else
+                {
+                    $kartonId = $karton->IDKARTON;
+                    $upit5 = "SELECT * FROM krevet";
+                    $rez5 = $db->query($upit5);
+                    $prisutan = false;
+                    foreach($rez5 as $value)
+                    {
+                        if($value['IDKARTON'] == $kartonId)
+                        {
+                            $prisutan == true;
+                        }
+                    }
+                    if($prisutan == false)
+                    {
+                        echo $prisutan;
+                        $upit = "INSERT INTO PRIJEM (IDKARTON,IDRADNIK,STATUS_PRIJEM) VALUES('$kartonId','$lekar','$napomena')"; // da
+                        $upit2 = "UPDATE KARTON SET STATUSPACIJENTA = '$status',IDSOBA = '$soba' WHERE IDKARTON = '$kartonId'"; // da
+                        $upit3 = "UPDATE KREVET SET IDKARTON = '$kartonId' WHERE IDKREVET = '$krevet'"; //da
+                        $upit4 = "UPDATE SOBA SET SLOBODNOMESTA = SLOBODNOMESTA - 1 WHERE IDSOBA = (SELECT IDSOBA FROM KREVET WHERE IDKREVET = '$krevet')"; //da
+                        $upit6 = "INSERT INTO spisak_dijagnoza (IDDIJAGNOZA,IDKARTON,TIP) VALUES ('$dijagnoza','$kartonId','$tip')";
+                        $rez1 = $db->query($upit);
+                        $rez2 = $db->query($upit2);
+                        $rez3 = $db->query($upit3);
+                        $rez4 = $db->query($upit4);
+                        $rez6 = $db->query($upit6);
+                        if($rez1 && $rez2 && $rez3 && $rez4 && $rez6)
+                        {
+                            echo "Uspesno zabelezen upit";
+                        }
+                        else
+                        {
+                            echo "Nije zablezen prijem";
+                            echo $db->error();
+                        }
+                     
+                    }
+                    else
+                    {
+                        echo "Pacijent se već nalazi na lečenju";
+                    }
+                    
+                } 
+            }   
         }
-
-    
     }
     else
     {
