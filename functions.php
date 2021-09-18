@@ -1,11 +1,6 @@
 <?php
     function upisLog($log) {
         session_start();
-        $file = fopen("logs/logs.txt","a");
-        $txt = "\n". $_SESSION['ime'] . " " . $_SESSION['prezime'] . " se " . $log . " ".  date("Y-m-d h:i:sa");
-        fwrite($file,$txt);
-        fclose($file);
-
         require_once("classes/db.php");
         $db = new Db();
         if(!$db->connect())
