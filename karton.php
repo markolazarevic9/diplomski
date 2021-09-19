@@ -7,6 +7,7 @@
   require_once("components/db_connect.php");
   require_once("functions.php");
   require_once("components/fetchPatient.php");
+  error_reporting(0);
  ?> 
 
 <!DOCTYPE html>

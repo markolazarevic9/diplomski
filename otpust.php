@@ -87,6 +87,7 @@
                               <th scope='col'>Naziv</th>
                               <th scope='col'>Datum dijagnostike</th>
                               <th scope='col'>Tip</th>
+                              <th scope='col'>Izlecen</th>
                               <th scope='col'>Zabelezi</th>
                             </tr>
                           </thead>
@@ -106,7 +107,8 @@
                                     <td>{$dijagnoza->NAZIVDIJAGNOZA}</td>
                                     <td>{$datum}</td>
                                     <td><input id='tip' value='{$value['TIP']}'></input></td>
-                                    <td class='td'><button data-karton='{$kartonId}' data-id='{$dijagnoza->IDDIJAGNOZA}' class='btn btn-success dugme'>Izlecen</button></td>
+                                    <td><input id='izlecen' type='checkbox'></td>
+                                    <td class='td'><button data-karton='{$kartonId}' data-id='{$dijagnoza->IDDIJAGNOZA}' class='btn btn-success dugme'>Zabelezi</button></td>
                                   </tr>";
                                   $counter++;
                                 }
@@ -143,19 +145,21 @@
           })
         })
 
-       
-
+     
         document.querySelectorAll(".dugme").forEach(item => {
           item.addEventListener("click", event => {
-            console.log(item.parentElement.parentElement);
+            // console.log(item.parentElement.parentElement);
             let karton = item.getAttribute("data-karton");
             let dijagnoza = item.getAttribute("data-id");
+            let tip = item.parentElement.parentElement.childNodes[7].children[0].value;
+            let izlecen = item.parentElement.parentElement.childNodes[9].children[0].checked;
             if(confirm("Da li ste sigurni da zelite da uklonite dijagnozu")) {
-              $.get("ajax/izleci.php",{dijagnoza:dijagnoza,karton:karton},function(odg) {
-              item.parentElement.innerHTML = odg;
+              $.get("ajax/izleci.php",{dijagnoza:dijagnoza,karton:karton,tip:tip,izlecen:izlecen},function(odg) {
+                item.parentElement.parentElement.childNodes[9].children[0].disabled = true;
+                item.parentElement.parentElement.childNodes[7].children[0].disabled = true;
+                item.parentElement.innerHTML = odg;
             })
-            }
-            
+            }            
           })
         })
 

@@ -29,7 +29,7 @@
                   <h4>Hospitalizacija</h4>
                   <h6>Odeljenje: {$odeljenje->NAZIVODELJENJE} </h6>
                   <h6>Soba: {$soba->BROJSOBA} </h6>
-                  <h6>Krevet: <?php echo $adresa->BROJ?> </h6>
+                  <h6>Krevet: $krevet->IDKREVET </h6>
                  </div>";  
                 }
               ?>

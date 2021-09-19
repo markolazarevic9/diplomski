@@ -41,7 +41,7 @@
         <a href="unosPacijenta.php"><i class="fab fa-accessible-icon"></i> Unos pacijenta</a>
       </div>';
       echo '<div class="option">
-      <a href="logovi.php"><i class="fas fa-scroll"></i> Statistika</a>
+      <a href="statistika.php"><i class="fas fa-scroll"></i> Statistika</a>
     </div>';
     echo '<div class="option">
       <a href="dodajLek.php"><i class="fas fa-prescription-bottle-alt"></i> Dodaj Lek</a>

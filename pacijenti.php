@@ -77,21 +77,7 @@
                   echo '<th scope="col">Karton</th>
                   <th scope="col">Terapija</th>';
                 }
-                // if($_SESSION['status'] != "admin")
-                // {
-                //   echo '<th scope="col">Karton</th>
-                //   <th scope="col">Terapija</th>
-                //   <th scope="col">Prijem</th>
-                //   <th scope="col">Otpust</th>
-                //   <th scope="col">Dijagnostika</th>
-                //   <th scope="col">Dijagnzoze</th>';
-                  
-                  
-                // }
-                // else
-                // {
-                //   echo '<th scope="col">Izmeni</th>';
-                // }
+               
               ?>
              
             </tr>

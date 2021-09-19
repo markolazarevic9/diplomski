@@ -39,12 +39,13 @@
     }
 
     function showPatiens($list) {
-      error_reporting(0);
+        error_reporting(0);
         session_start();
+        $counter = 1;
         foreach($list as $value) 
         {   
             echo "<tr>
-            <th scope='row'> " .$value['IDPACIJENT']."</th>
+            <th scope='row'> " .$counter."</th>
             <td>{$value['IMEPACIJENT']}</td>
             <td>{$value['PREZIMEPACIJENT']}</td>
             <td>{$value['JMBG']}</td>";
@@ -107,6 +108,7 @@
        
             
          echo "</tr>";
+         $counter++;
         }
     }
 
@@ -119,6 +121,7 @@
     }
 
     function showDiagnosis($list) {
+      $counter = 1;
       foreach($list as $value) 
       {   
           $diagnosis = showDiagnosisList($value['IDDIJAGNOZA']);
@@ -133,7 +136,7 @@
 
           }
           echo "<tr>
-          <th scope='row'> " .$value['IDDIJAGNOZA'] + 1 ."</th>
+          <th scope='row'> " .$counter ."</th>
           <td>{$value['NAZIVDIJAGNOZA']}</td>
           <td>{$value['SIFRADIJAGNOZA']}</td>
           <td>{$value['OPISDIJAGNOZA']}</td>
@@ -141,19 +144,22 @@
           <td>{$datum2}</td>
           <td>{$diagnosis->TIP}</td>
         </tr>";
+        $counter++;
       }
     }
 
     function showListOfDiagnosis($list)
     {
+      $counter = 1;
       foreach($list as $value)
       {
         echo "<tr>
-        <th scope='row'> " .$value['IDDIJAGNOZA'] + 1 ."</th>
+        <th scope='row'> " .$counter ."</th>
         <td>{$value['NAZIVDIJAGNOZA']}</td>
         <td>{$value['SIFRADIJAGNOZA']}</td>
         <td>{$value['OPISDIJAGNOZA']}</td>
       </tr>";
+      $counter++;
       }
     }
 
@@ -215,6 +221,7 @@
 
     function showTreatment($list)
     {
+      
       $counter = 1;
       foreach($list as $value)
       {
@@ -228,6 +235,7 @@
          $medTeh = "";
        }
        $datum  = showOnlyDate($terapija->DATUM_TERAPIJA);
+       $datum2 = showDate($value['DATUM']);
         echo "<tr>
         <th scope='row'> " .$counter ."</th>
         <td>{$lek->NAZIVLEK}</td>
@@ -236,7 +244,7 @@
         <td>{$terapija->APLIKOVANJE}</td>
         <td>{$datum}</td>
         <td>{$lekar->IMERADNIK}". " " ." {$lekar->PREZIMERADNIK}</td>
-        <td>{$value['DATUM']}</td> ";
+        <td>{$datum2}</td> ";
         if(!is_null($value['IDTEHNICAR'])) 
         {
           echo "<td>{$medTeh->IMERADNIK}". " " ." {$medTeh->PREZIMERADNIK}</td>
@@ -254,27 +262,32 @@
 
     function showReports($list) 
     {
+      error_reporting(0);
+      $counter = 1;
       foreach($list as $value) 
       {   
+         $datum = showOnlyDate($value['DATUM_ANALIZA']);
          $lekar = fetchRadnik($value['IDRADNIK']);
           echo "<tr>
-          <th scope='row'> " .$value['IDANALIZA'] ."</th>
+          <th scope='row'> " .$counter ."</th>
           <td>{$value['NAZIV_ANALIZA']}</td>
           <td>{$value['UZORAK']}</td>
           <td>{$value['VREDNOST']}</td>
           <td>{$value['OPIS']}</td>
-          <td>{$value['DATUM_ANALIZA']}</td>
+          <td>{$datum}</td>
           <td>{$lekar->IMERADNIK}" . " " ."{$lekar->PREZIMERADNIK}</td>
           <td><button class='btn btn-primary'><a target='_blank' href='izvestaj.php?IDANALIZA={$value['IDANALIZA']}&&id={$_GET['id']}'>Štampa</a></button></td>
         </tr>";
+        $counter++;
       }
     }
 
     function showMedicines($list) {
+      $counter = 1;
       foreach($list as $value) 
       {   
           echo "<tr>
-          <th scope='row'> " .$value['IDLEK'] + 1 ."</th>
+          <th scope='row'> " .$counter ."</th>
           <td>{$value['NAZIVLEK']}</td>
           <td>{$value['JEDMERELEK']}</td>
           <td>{$value['KOLICINALEK']}</td>
@@ -282,6 +295,7 @@
           <td>{$value['TIPLEKA']}</td>
           <td>{$value['OBLIK']}</td>
         </tr>";
+        $counter++;
       }
     }
 
@@ -356,7 +370,7 @@
       require("components/db_connect.php");
       $upit = "SELECT * FROM PRIJEM WHERE IDKARTON = (SELECT IDKARTON FROM KARTON WHERE IDPACIJENT = {$id})";
       $rez = $db->query($upit);
-
+      $counter = 1;
       foreach($rez as $value)
       {
         $lekar = fetchRadnik($value['IDRADNIK']);
@@ -364,12 +378,13 @@
         echo 
         "
           <tr>
-            <th scope='row'>{$value['IDPRIJEM']}</th>
+            <th scope='row'>{$counter}</th>
             <td>{$datum}</td>
             <td>{$value['STATUS_PRIJEM']}</td>
             <td>{$lekar->IMERADNIK}" . " " ." {$lekar->PREZIMERADNIK}</td>
           </tr>
         ";
+        $counter++;
       } 
     }
     function showOtpust($id) 
@@ -377,7 +392,7 @@
       require("components/db_connect.php");
       $upit = "SELECT * FROM OTPUST WHERE IDKARTON = (SELECT IDKARTON FROM KARTON WHERE IDPACIJENT = {$id})";
       $rez = $db->query($upit);
-
+      $counter = 1;
       foreach($rez as $value)
       {
         $datum = showOnlyDate($value['DATUM_OTPUST']);
@@ -386,12 +401,13 @@
         echo 
         "
           <tr>
-            <th scope='row'>{$value['IDOTPUST']}</th>
-            <td>{$value['DATUM_OTPUST']}</td>
+            <th scope='row'>{$counter}</th>
+            <td>{$datum}</td>
             <td>{$value['OTPUST_NAPOMENA']}</td>
             <td>{$lekar->IMERADNIK}" . " " ." {$lekar->PREZIMERADNIK}</td>
           </tr>
         ";
+        $counter++;
       } 
 
     }
@@ -415,13 +431,14 @@
           {
             error_reporting(0);
           }
+          $datum = showOnlyDate($value['DAT_ZAP']);
           echo "<tr>
           <th scope='row'> " .$value['IDRADNIK']."</th>
           <td>{$value['IMERADNIK']}</td>
           <td>{$value['PREZIMERADNIK']}</td>
           <td>{$value['SPEC']}</td>
           <td>{$value['POZICIJA']}</td>
-          <td>{$value['DAT_ZAP']}</td>
+          <td>{$datum}</td>
           <td>{$odeljenje->NAZIVODELJENJE}</td>
           <td>
               <button type='button' class='btn-danger'>
@@ -448,5 +465,4 @@
        return mysqli_fetch_object($rez);
       }
  
-    
 ?>

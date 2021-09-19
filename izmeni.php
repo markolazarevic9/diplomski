@@ -93,15 +93,43 @@
             </select>
             <select name="vakcinacija" id="vakcinacija">
                 <option value="/">--- Da li je pacijent vakcinisan ---</option>
-                <option value="DA">Da</option>
-                <option value="NE">Ne</option>
+                <?php
+                  if($karton->VAKCINACIJA == "DA")
+                  {
+                    echo "<option selected value='DA'>Da</option>
+                    <option value='NE'>Ne</option>";
+                  }
+                  else
+                  {
+                    echo "<option value='DA'>Da</option>
+                    <option selected value='NE'>Ne</option>";
+                  }
+                ?>
             </select>
             <input id='alergije' type="text" name="alergije" value=<?php echo $karton->ALERGIJE?>>
             <select name="covidTest" id="covidTest">
                     <option value="/">--- Izaberite opciju covid testa ---</option>
-                    <option value="POZITIVAN">POZITIVAN</option>
-                    <option value="NEGATIVAN">NEGATIVAN-</option>
-                    <option value="NIJE TESTIRAN">NIJE TESTIRAN</option>
+                    <?php
+                      if($karton->TEST == "POZITIVAN")
+                      {
+                       echo '<option selected value="POZITIVAN">POZITIVAN</option>
+                       <option value="NEGATIVAN">NEGATIVAN-</option>
+                       <option value="NIJE TESTIRAN">NIJE TESTIRAN</option>';
+                      }
+                      elseif($karton->TEST == "NEGATIVAN")
+                      {
+                        echo '<option value="POZITIVAN">POZITIVAN</option>
+                       <option selected value="NEGATIVAN">NEGATIVAN-</option>
+                       <option value="NIJE TESTIRAN">NIJE TESTIRAN</option>';
+                      }
+                      else
+                      {
+                        echo '<option value="POZITIVAN">POZITIVAN</option>
+                        <option value="NEGATIVAN">NEGATIVAN-</option>
+                        <option selected value="NIJE TESTIRAN">NIJE TESTIRAN</option>';
+                      }
+                    ?>
+                    
             </select>
           
            

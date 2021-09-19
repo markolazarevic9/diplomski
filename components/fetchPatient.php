@@ -16,7 +16,12 @@
     $upitSoba = "SELECT * FROM SOBA WHERE IDSOBA = (SELECT IDSOBA FROM KARTON WHERE IDPACIJENT = {$patientId})";
     $rezSoba = $db->query($upitSoba);
     $soba = mysqli_fetch_object($rezSoba);
-  
+
+      
+    $upitKrevet = "SELECT * FROM KREVET WHERE IDKARTON = (SELECT IDKARTON FROM KARTON WHERE IDPACIJENT = {$patientId})";
+    $rezKrevet = $db->query($upitKrevet);
+    $krevet = mysqli_fetch_object($rezKrevet);
+
     $upitOdeljenje = "SELECT * FROM ODELJENJE WHERE IDODELJENJE = (SELECT IDODELJENJE FROM SOBA WHERE IDSOBA = (SELECT IDSOBA FROM KARTON WHERE IDPACIJENT = {$patientId}))";
     $rezOdeljenje = $db->query($upitOdeljenje);
     $odeljenje = mysqli_fetch_object($rezOdeljenje);

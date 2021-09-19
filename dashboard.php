@@ -5,6 +5,28 @@
   {
     header("location:login.php");
   }
+  require_once("components/db_connect.php");
+
+  $sqlPrijemi = "SELECT fun_broj_prijema()";
+  $rezPrijemi = $db->query($sqlPrijemi);
+  $brojPrijema = mysqli_fetch_row($rezPrijemi);
+
+  $sqlOtpusti = "SELECT fun_broj_otpusta()";
+  $rezOtpusti = $db->query($sqlOtpusti);
+  $brojOtpusta = mysqli_fetch_row($rezOtpusti);
+
+  $sqlSmrti = "SELECT fun_broj_smrti()";
+  $rezSmrti = $db->query($sqlSmrti);
+  $brojSmrti = mysqli_fetch_row($rezSmrti);
+
+  $sqlInt = "SELECT COUNT(IDKREVET) FROM KREVET WHERE IDKARTON IS NULL AND IDSOBA IN (SELECT IDSOBA FROM SOBA WHERE IDODELJENJE = (SELECT IDODELJENJE FROM ODELJENJE WHERE NAZIVODELJENJE = 'Intenzivna nega'))";
+  $rezInt = $db->query($sqlInt);
+  $brojInt = mysqli_fetch_row($rezInt);
+
+  $sqlPolu = "SELECT COUNT(IDKREVET) FROM KREVET WHERE IDKARTON IS NULL AND IDSOBA IN (SELECT IDSOBA FROM SOBA WHERE IDODELJENJE = (SELECT IDODELJENJE FROM ODELJENJE WHERE NAZIVODELJENJE = 'Poluintenzivna nega'))";
+  $rezPolu= $db->query($sqlPolu);
+  $brojPolu = mysqli_fetch_row($rezPolu);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -21,11 +43,24 @@
 
     <title>Dashboard</title>
     <style>
+      .container h1 {
+        text-align: center;
+        font-weight: bold;
+      }
       h2 {
         font-size:25px;
+        text-align: center;
       }
       a:hover {
         color:white;
+      }
+     #stat {
+       margin-bottom: 60px;
+       font-weight: normal;
+       color: red;
+     }
+      .container h2 {
+        padding: 20px;
       }
     </style>
   </head>
@@ -34,29 +69,37 @@
 
     <div class="central">
       <?php require_once("components/sidebar.php")?>
-
-      <div class="main">
-        <h2 id="mainH">Lekarski sistem</h2>
-        <hr />
-        <div class="statistics">
-          <div class="admission">
-            <h2>Ukupno prijema danas</h2>
-            <h2>Broj</h2>
+      <div class="container">
+      <h1 id="stat">Statistika za <?php echo date("d.m.Y",time())?></h1>
+        <div class="row">
+          <div class="col-md-4">
+              <h2>Ukupno prijema danas</h2>
+              <h1 id="prijemBroj"><?php echo $brojPrijema[0]?></h1>
           </div>
-          <div class="release">
-            <h2>Ukupno otpusta</h2>
-            <h2>Broj</h2>
+          <div class="col-md-4">
+              <h2>Ukupno otpusta danas</h2>
+              <h1 id="otpustBroj"><?php echo $brojOtpusta[0]?></h1>
           </div>
-          <div class="deaths">
-            <h2>Smrtnih slucajeva</h2>
-            <h2>Broj</h2>
+          <div class="col-md-4">
+              <h2>Ukupno smrtnih slucajeva danas</h2>
+              <h1 id="smrtiBroj"><?php echo $brojSmrti[0]?></h1>
           </div>
         </div>
-        <hr />
-        <div class="rooms">
-          <h2>Slobodno mesta u bolnici</h2>
-          <h2>Broj</h2>
+        <hr>
+        <div class="row">
+          <div class="col-md-12">
+            <h2>Slobodno mesta u bolnici</h2>
+          </div>
+          <div class="col-md-6">
+            <h2>Intenzivna nega</h2> <br>
+            <h1 id="intBroj"><?php echo $brojInt[0]?></h1>
+          </div>
+          <div class="col-md-6">
+            <h2>Poluintenzivna nega</h2> <br>
+            <h1 id="poluBroj"><?php echo $brojPolu[0]?></h1>
+          </div>
         </div>
+        <hr>
       </div>
     </div>
   </body>
