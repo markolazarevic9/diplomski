@@ -39,6 +39,9 @@
       .container {
         text-align: center;
       }
+      #datum {
+        display: none;
+      }
     </style>
   </head>
   <body>
@@ -46,8 +49,17 @@
 
     <div class="central">
       <?php require_once("components/sidebar.php")?>
-
+      
       <div class="main container">
+          <h2>Pretraga logova</h2>
+          <form>
+              <input id='prijava' type="checkbox" data-id="PRIJAVA" checked> Prijava
+              <input id='odjava' type="checkbox" data-id="ODJAVA" checked> Odjava
+              <input id='datumi' type="checkbox" checked> Svi datumi
+              <input id='datum' type="date"> 
+              <button class='btn btn-info'>Prikaži</button> 
+
+          </form>
           <table class="table">
               <thead>
                   <tr>
@@ -88,5 +100,16 @@
         </table>    
       </div>
     </div>
+    <script>
+       document.querySelector("#datum").style.display = 'none';
+        document.querySelector("#datumi").addEventListener("change",function() {
+          if(document.querySelector("#datumi").checked) {
+            document.querySelector("#datum").style.display = 'none';
+          } else {
+            document.querySelector("#datum").style.display = 'inline';
+
+          }
+        })
+    </script>
   </body>
 </html>
