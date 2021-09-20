@@ -1,4 +1,4 @@
-<img src="<?php echo $url?>" class="patientPhoto">
+<img src="<?php echo $url?>" class="patientPhoto img-fluid">
               <div class="personalData">
                   <h2><?php echo $pacijent->IMEPACIJENT . " " .$pacijent->PREZIMEPACIJENT ?></h2>
                   <h6>JMBG: <?php echo $pacijent->JMBG?> </h6>

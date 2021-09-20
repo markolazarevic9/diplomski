@@ -14,7 +14,7 @@
 
  <?php
   require_once("functions.php");
-  if(time() - $_SESSION['CREATED'] > 1000) {
+  if(time() - $_SESSION['CREATED'] > 1800) {
     if(isset($_SESSION['ime']) && $_SESSION['ime'] != "")
     {
       upisLog("Odjava");

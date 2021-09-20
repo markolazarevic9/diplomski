@@ -22,6 +22,7 @@
       src="https://kit.fontawesome.com/486587c22a.js"
       crossorigin="anonymous"
     ></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
     <link rel="stylesheet" href="css/dashboard.css" />
 
@@ -51,15 +52,6 @@
       <?php require_once("components/sidebar.php")?>
       
       <div class="main container">
-          <h2>Pretraga logova</h2>
-          <form>
-              <input id='prijava' type="checkbox" data-id="PRIJAVA" checked> Prijava
-              <input id='odjava' type="checkbox" data-id="ODJAVA" checked> Odjava
-              <input id='datumi' type="checkbox" checked> Svi datumi
-              <input id='datum' type="date"> 
-              <button class='btn btn-info'>Prikaži</button> 
-
-          </form>
           <table class="table">
               <thead>
                   <tr>
@@ -82,34 +74,14 @@
 
                   $upit = "SELECT * FROM LOG";
                   $rez = $db->query($upit);
-                  foreach($rez as $log)
-                  {
-                    $datum = showDate($log['DATUM']);
-                    $radnik = fetchRadnik($log['IDRADNIK']);
-                    echo "<tr> 
-                    <th scope='row'> {$log['IDLOG']} </th>
-                    <th> {$radnik->IMERADNIK}</th>
-                    <th> {$radnik->PREZIMERADNIK} </th>
-                    <th>{$log['ISTORIJA']}</th>
-                    <th>{$datum}</th>
-                    </tr>";
-                  }
+                 
+                  showLogs($rez);
 
                 ?>
              </tbody>
         </table>    
       </div>
     </div>
-    <script>
-       document.querySelector("#datum").style.display = 'none';
-        document.querySelector("#datumi").addEventListener("change",function() {
-          if(document.querySelector("#datumi").checked) {
-            document.querySelector("#datum").style.display = 'none';
-          } else {
-            document.querySelector("#datum").style.display = 'inline';
-
-          }
-        })
-    </script>
+   
   </body>
 </html>

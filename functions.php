@@ -464,5 +464,23 @@
 
        return mysqli_fetch_object($rez);
       }
+
+      function showLogs($list)
+      {
+        $counter = 1;
+        foreach($list as $log)
+        {
+          $datum = showDate($log['DATUM']);
+          $radnik = fetchRadnik($log['IDRADNIK']);
+          echo "<tr> 
+          <th scope='row'> {$counter} </th>
+          <th> {$radnik->IMERADNIK}</th>
+          <th> {$radnik->PREZIMERADNIK} </th>
+          <th>{$log['ISTORIJA']}</th>
+          <th>{$datum}</th>
+          </tr>";
+          $counter++;
+        }
+      }
  
 ?>
