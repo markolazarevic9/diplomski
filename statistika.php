@@ -16,9 +16,6 @@
 
 ?>
 
-
-
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -65,6 +62,7 @@
       <?php require_once("components/sidebar.php")?>
       
       <div class="main container">
+          
           <div class="row">
               <div class="col-md-4">
                 <h2>Odnos muškaraca i žena na lečenju<hr></h2>
@@ -102,20 +100,20 @@
     </div>
     <script>
           function days() {
-    let today = new Date();
-    let oneDayAgo = new Date();
-    let twoDaysAgo = new Date();
-    let threeDaysAgo = new Date();
-    let fourDaysAgo = new Date();
-    let fiveDaysAgo = new Date();
-    let sixDaysAgo = new Date();
+            let today = new Date();
+            let oneDayAgo = new Date();
+            let twoDaysAgo = new Date();
+            let threeDaysAgo = new Date();
+            let fourDaysAgo = new Date();
+            let fiveDaysAgo = new Date();
+            let sixDaysAgo = new Date();
 
-    oneDayAgo.setDate(today.getDate() - 1);
-    twoDaysAgo.setDate(today.getDate() - 2);
-    threeDaysAgo.setDate(today.getDate() - 3);
-    fourDaysAgo.setDate(today.getDate() - 4);
-    fiveDaysAgo.setDate(today.getDate() - 5);
-    sixDaysAgo.setDate(today.getDate() - 6);
+            oneDayAgo.setDate(today.getDate() - 1);
+            twoDaysAgo.setDate(today.getDate() - 2);
+            threeDaysAgo.setDate(today.getDate() - 3);
+            fourDaysAgo.setDate(today.getDate() - 4);
+            fiveDaysAgo.setDate(today.getDate() - 5);
+            sixDaysAgo.setDate(today.getDate() - 6);
 
     let arr = new Array();
 
@@ -258,7 +256,7 @@
       data: {
         labels: [daysSeven[6],daysSeven[5],daysSeven[4],daysSeven[3],daysSeven[2],daysSeven[1],daysSeven[0]],
         datasets:[{
-          label: 'Umrlih',
+          label: 'Oporavljenih',
           data: [
             <?php echo $ozdrav[6]?>,
             <?php echo $ozdrav[5]?>,

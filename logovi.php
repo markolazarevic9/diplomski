@@ -43,6 +43,25 @@
       #datum {
         display: none;
       }
+      .searchLogs {
+      text-align: center;
+      padding: 10px;
+      margin: 10px;
+    }
+    .searchLogs span {
+      border: 1px solid black;
+      padding: 15px;
+    }
+    .searchLogs input {
+      border: none;
+      width: 300px;
+      margin-left: 10px;
+      padding: 10px;
+    }
+    .searchLogs input:focus {
+      outline: none;
+    }
+
     </style>
   </head>
   <body>
@@ -52,6 +71,8 @@
       <?php require_once("components/sidebar.php")?>
       
       <div class="main container">
+   
+        <hr />
           <table class="table">
               <thead>
                   <tr>
@@ -82,6 +103,6 @@
         </table>    
       </div>
     </div>
-   
+  
   </body>
 </html>

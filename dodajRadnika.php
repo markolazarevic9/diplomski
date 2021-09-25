@@ -128,7 +128,7 @@
                 ?>
             </select>
             <input type="text" name="spec" placeholder="Unesite specijalizaciju">
-            <input type="date" name="datZap" placeholder="Unesite datum zaposlenja">
+            <input type="date" name="datZap">
             <input type="text" name="korisnickoIme" placeholder="Unesite korisnicko ime">
             <input type="text" name="lozinka" placeholder="Unesite lozinku">
 

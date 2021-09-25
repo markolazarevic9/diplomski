@@ -248,12 +248,11 @@
         if(!is_null($value['IDTEHNICAR'])) 
         {
           echo "<td>{$medTeh->IMERADNIK}". " " ." {$medTeh->PREZIMERADNIK}</td>
-          </tr>;";
+          </tr>";
         } 
         else
         {
-          echo `<td>Nesto</td>
-          ";`;
+          echo `<td>Nesto</td>`;
         } 
       echo "</tr>";
       $counter++;

@@ -57,7 +57,7 @@
       <?php require_once("components/sidebar.php")?>
       
       <div class="main container">
-        <h2>Unos novog pacijenta <hr></h2>
+        <h2>Unos novog leka <hr></h2>
         <?php
              if(isset($_POST['potvrdi']))
              {

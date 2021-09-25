@@ -1,5 +1,0 @@
-Entitet smena
-Slobodno mesta u bolnici
-Status pacijenta
-Karton
-Procena duzine lecenja

@@ -87,7 +87,7 @@
     <div class="login">
       <form method="post" action="login.php" autocomplete="off">
         <i class="fas fa-hospital"></i> <br />
-        <h2>Prijava na sistem</h2>
+        <h2>Prijava na eBolnica informacioni sistem</h2>
         <span>
           <i class="fas fa-user"></i
           ><input type="text" name="username" placeholder="Korisničko ime"
