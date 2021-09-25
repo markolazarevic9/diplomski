@@ -83,24 +83,41 @@
                  else
                  {
                      require_once("components/db_connect.php");
-                     $upit  = "INSERT INTO PACIJENT (IMEPACIJENT,PREZIMEPACIJENT,JMBG,LBO,POL,BROJTELEFONA) VALUES('$ime','$prezime','$jmbg','$lbo','$pol','$brtel')";
-                     $rez = $db->query($upit);
-                     $id = $db->insert_id();
-                     $upit2 = "INSERT INTO KARTON (IDPACIJENT,IDADRESA,VAKCINISAN,ALERGIJE,KRVNAGRUPA,TEST) VALUES ('$id','$adresa','$vakcinacija','$alergije','$krvnaGrupa','$covidTest')";
-                     $rez2 = $db->query($upit2);
-                     if(!$rez || !$rez2)
+                     $upitJmbg = "SELECT * FROM PACIJENT";
+                     $rezJmbg = $db->query($upitJmbg);
+                     $postoji = false;
+                     foreach($rezJmbg as $JMBG)
                      {
-                         echo '<div class="alert alert-danger" role="alert">
-                        Nije uspelo upisavanje pacijenta
-                       </div>';
-                       echo $id;
+                       if($JMBG['JMBG'] == $jmbg)
+                       {
+                        echo '<div class="alert alert-danger" role="alert">
+                        Vec postoji pacijent sa tim jedinstvenim brojem
+                        </div>';
+                        $postoji = true;
+                       }
                      }
-                     else
+                     if($postoji == false)
                      {
-                         echo '<div class="alert alert-info" role="alert">
-                         Uspešno dodat pacijent
-                       </div>';
+                      $upit  = "INSERT INTO PACIJENT (IMEPACIJENT,PREZIMEPACIJENT,JMBG,LBO,POL,BROJTELEFONA) VALUES('$ime','$prezime','$jmbg','$lbo','$pol','$brtel')";
+                      $rez = $db->query($upit);
+                      $id = $db->insert_id();
+                      $upit2 = "INSERT INTO KARTON (IDPACIJENT,IDADRESA,VAKCINISAN,ALERGIJE,KRVNAGRUPA,TEST) VALUES ('$id','$adresa','$vakcinacija','$alergije','$krvnaGrupa','$covidTest')";
+                      $rez2 = $db->query($upit2);
+                      if(!$rez || !$rez2)
+                      {
+                          echo '<div class="alert alert-danger" role="alert">
+                         Nije uspelo upisavanje pacijenta
+                        </div>';
+                        echo $id;
+                      }
+                      else
+                      {
+                          echo '<div class="alert alert-info" role="alert">
+                          Uspešno dodat pacijent
+                        </div>';
+                      }
                      }
+                   
                  }
              }
         ?>
